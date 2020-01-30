@@ -11,6 +11,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.example.android.thepeachalliance2020.utils.AppUtils;
+
 public class InputManager {
     //Match Data Holders
     //Below holds match data
@@ -33,25 +35,26 @@ public class InputManager {
 
     public static String mAppVersion = "1.0";
 
-}
 
     //Populate Scout List
     public static ArrayList<String> getScoutNames() {
         ArrayList<String> finalNamesList = new ArrayList<String>();
 
-        String filePath = Environment.getExternalStorageDirectory().toString() + "/bluetooth";
-        String fileName = "assignments.txt";
+        String filePath = Environment.getExternalStorageDirectory().toString() + "/scout";
+
+        String fileName = "Scouts.txt";
 
         File f = new File(filePath, fileName);
 
+        Log.i("path", filePath);
         Log.i("doesFileExist", f.exists() + "");
 
         //Retrieve names from text file in internal storage
         if (f.exists()) {
             try {
-                JSONObject names = new JSONObject(AppUtils.retrieveSDCardFile("assignments.txt"));
+                JSONObject names = new JSONObject(AppUtils.retrieveSDCardFile("Scouts.txt"));
 
-                JSONArray namesArray = names.names();
+                JSONArray namesArray = names.getJSONArray("names");
                 ArrayList<String> backupNames = new ArrayList<String>();
 
                 for (int i = 0; i < namesArray.length(); i++) {
@@ -92,3 +95,4 @@ public class InputManager {
 
         return finalNamesList;
     }
+}
