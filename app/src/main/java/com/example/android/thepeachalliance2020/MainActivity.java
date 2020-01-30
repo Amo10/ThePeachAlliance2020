@@ -11,7 +11,7 @@ import com.example.android.thepeachalliance2020.Managers.InputManager;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static TextView version_number;
+    public static TextView version_number, team_number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,11 +28,15 @@ public class MainActivity extends AppCompatActivity {
     //Set all UI text values
     public static void updateUserData() {
         version_number.setText(String.valueOf("Version: " + InputManager.mAppVersion));
+        team_number.setText(String.valueOf(InputManager.mTeamNum));
+
     }
 
 
     public void initViews() {
         version_number = findViewById(R.id.version_number);
+        team_number = findViewById(R.id.team_number);
+
     }
 
 }
