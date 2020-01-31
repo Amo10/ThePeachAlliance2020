@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/tv_versionNumber"
@@ -35,4 +35,21 @@
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/tv_teamNumber"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/btn_triggerScoutNamePopup"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/btn_triggerTabletIDPopup"
+        app:layout_constraintTop_toTopOf="@+id/btn_triggerTabletIDPopup" />
+
+    <Spinner
+        android:id="@+id/btn_triggerTabletIDPopup"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_teamNumber" />
 </androidx.constraintlayout.widget.ConstraintLayout>

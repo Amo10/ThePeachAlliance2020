@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/btn_nameCell"
+    android:layout_width="75dp"
+    android:layout_height="70dp"
+    android:background="#ffffff"
+    android:gravity="center"
+    android:text="unselected"
+    android:textColor="#000000"
+    android:textSize="18sp" />
