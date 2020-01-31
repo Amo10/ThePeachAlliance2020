@@ -46,7 +46,7 @@
 
     <Spinner
         android:id="@+id/btn_triggerTabletIDPopup"
-        android:layout_width="100dp"
+        android:layout_width="150dp"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"

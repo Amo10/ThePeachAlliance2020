@@ -81,13 +81,13 @@ public class MainActivity extends AppCompatActivity {
 
         //Declare Scout ID popup
         sp_triggerTabletIDPopup = (Spinner) findViewById(R.id.btn_triggerTabletIDPopup);
-        ArrayAdapter<Integer> idAdapter = new ArrayAdapter<Integer>(this, R.layout.main_popup_header_id, Cst.SCOUT_IDS);
+        ArrayAdapter<String> idAdapter = new ArrayAdapter<String>(this, R.layout.main_popup_header_id, Cst.SCOUT_IDS);
 
         sp_triggerTabletIDPopup.setAdapter(idAdapter);
 
         sp_triggerTabletIDPopup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long arg3) {
-                InputManager.mScoutId = (int) sp_triggerTabletIDPopup.getSelectedItem();
+                InputManager.mTabletID = sp_triggerTabletIDPopup.getSelectedItem().toString();
                 updateUserData();
             }
 

@@ -28,34 +28,13 @@ public class InputManager {
     public static String mAllianceColor = "";
     public static String mScoutName = "unselected";
 
-    public static int mScoutId = 0;
+    public static String mTabletID = "";
     public static int mMatchNum = 0;
     public static int mTeamNum = 4468;
     public static int mCycleNum = 0;
 
     public static String mAppVersion = "1.0";
     public static String mDatabaseURL;
-
-    //Store user and current match data in shared preferences
-    public static void storeUserData() {
-        AppCc.setSp("allianceColor", mAllianceColor);
-        AppCc.setSp("scoutName", mScoutName);
-        AppCc.setSp("scoutId", mScoutId);
-        AppCc.setSp("matchNum", mMatchNum);
-        AppCc.setSp("teamNum", mTeamNum);
-        AppCc.setSp("cycleNum", mCycleNum);
-    }
-
-    //Recover user and current match data from shared preferences
-    public static void recoverUserData() {
-        mAllianceColor = AppCc.getSp("allianceColor", "");
-        mScoutName = AppCc.getSp("scoutName", "unselected");
-        mScoutId = AppCc.getSp("scoutId", 0);
-        mMatchNum = AppCc.getSp("matchNum", 0);
-        mTeamNum = AppCc.getSp("teamNum", 0);
-        mCycleNum = AppCc.getSp("cycleNum", 0);
-        mDatabaseURL = AppCc.getSp("databaseURL", "");
-    }
 
     //Populate Scout List
     public static ArrayList<String> getScoutNames() {
