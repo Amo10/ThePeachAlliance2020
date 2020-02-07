@@ -1,11 +1,13 @@
 package com.example.android.thepeachalliance2020._superDataClasses;
 
 import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import com.example.android.thepeachalliance2020.Managers.InputManager;
+import com.example.android.thepeachalliance2020._superDataClasses.Match;
 
 public interface Cst {
 
@@ -14,8 +16,14 @@ public interface Cst {
     //Saves scout names into shared preferences
     List<String> SCOUT_NAMES = InputManager.getScoutNames();
 
+    List<Match> MATCH_LIST = InputManager.getMatchSchedule();
+
+    int FINAL_MATCH = MATCH_LIST.size() - 1;
+
     //Saves scout IDS as 1-18
     List<String> SCOUT_IDS = Arrays.asList("Red 1", "Red 2", "Red 3", "Blue 1", "Blue 2", "Blue 3");
+
+
 
     //Stores manual compression keys that aren't separated by commas
     Map<String, String> initialCompressKeys = new HashMap<String, String>() {{

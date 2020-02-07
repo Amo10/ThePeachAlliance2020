@@ -60,7 +60,7 @@ public class AppUtils {
 
         if (!fileDir.exists()) {
             fileDir.mkdir();
-        }
+    }
         Log.i("doesFileExist", fileDir.exists() + "");
         Log.i("doesDirectoryExist", fileDir.isDirectory() + "");
         Log.i("Files", fileDir.listFiles() + "");

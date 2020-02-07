@@ -8,18 +8,24 @@ import android.Manifest;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.android.thepeachalliance2020.Managers.InputManager;
 import com.example.android.thepeachalliance2020._superDataClasses.AppCc;
 import com.example.android.thepeachalliance2020._superDataClasses.Cst;
+import com.example.android.thepeachalliance2020.utils.AppUtils;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static EditText et_matchNum;
     public static TextView tv_versionNumber, tv_teamNumber;
     public static Spinner sp_triggerScoutNamePopup, sp_triggerTabletIDPopup;
 
@@ -37,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
         InputManager.getScoutNames();
         initViews();
         initPopups();
+        initListeners();
 
         //InputManager.recoverUserData();
         updateUserData();
@@ -48,6 +55,8 @@ public class MainActivity extends AppCompatActivity {
     public static void updateUserData() {
         tv_versionNumber.setText(String.valueOf("Version: " + InputManager.mAppVersion));
         tv_teamNumber.setText(String.valueOf(InputManager.mTeamNum));
+        et_matchNum.setText(String.valueOf(InputManager.mMatchNum));
+
 
     }
 
@@ -55,9 +64,38 @@ public class MainActivity extends AppCompatActivity {
     public void initViews() {
         tv_versionNumber = findViewById(R.id.tv_versionNumber);
         tv_teamNumber = findViewById(R.id.tv_teamNumber);
+        et_matchNum = findViewById(R.id.et_matchNum);
+
 
     }
+    //Add listeners to map and matchNum editor.
+    public void initListeners() {
+        et_matchNum.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //Do nothing, necessary for TextChangedListeners.
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //Do nothing, necessary for TextChangedListeners.
+            }
+
+            //Updates match number after altered
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (editable.toString().equals("")) {
+                    return;
+                }
+
+                int matchNum = AppUtils.StringToInt(editable.toString());
+
+                InputManager.mMatchNum = matchNum;
+                InputManager.updateTeamNum();
+                tv_teamNumber.setText(String.valueOf(InputManager.mTeamNum));
+            }
+        });
+    }
 
     //Create the backup, scout name, and ID popups
     public void initPopups() {
@@ -97,5 +135,18 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+    /*
+    public void onClickStartScouting(View view) {
+        if (InputManager.mScoutName.equals("unselected") || InputManager.mMatchNum == 0 || InputManager.mTeamNum == 0) {
+            Toast.makeText(getBaseContext(), "There is null information!", Toast.LENGTH_SHORT).show();
+        }
+        else if (InputManager.mMatchNum > Cst.FINAL_MATCH ) {
+            //Doesn't let a Scout scout if they have a match number that doesn't exist
+            Toast.makeText(getBaseContext(), "Please Input a Valid Match Number", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            open(PregameActivity.class, null, false, true);
+        }
+    }*/
 
 }

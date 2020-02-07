@@ -38,9 +38,9 @@
 
     <Spinner
         android:id="@+id/btn_triggerScoutNamePopup"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="100dp"
-        android:layout_marginEnd="16dp"
+        android:layout_marginEnd="12dp"
         app:layout_constraintEnd_toStartOf="@+id/btn_triggerTabletIDPopup"
         app:layout_constraintTop_toTopOf="@+id/btn_triggerTabletIDPopup" />
 
@@ -52,4 +52,25 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_teamNumber" />
+
+    <EditText
+        android:id="@+id/et_matchNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="124dp"
+        android:layout_marginEnd="24dp"
+        android:ems="10"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_triggerTabletIDPopup" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:text="Match:"
+        android:textSize="36sp"
+        app:layout_constraintEnd_toStartOf="@+id/et_matchNum"
+        app:layout_constraintTop_toTopOf="@+id/et_matchNum" />
 </androidx.constraintlayout.widget.ConstraintLayout>
