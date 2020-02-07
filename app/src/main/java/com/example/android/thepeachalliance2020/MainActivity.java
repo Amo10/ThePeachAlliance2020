@@ -19,11 +19,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.thepeachalliance2020.Managers.InputManager;
+import com.example.android.thepeachalliance2020._superActivities.DialogMaker;
 import com.example.android.thepeachalliance2020._superDataClasses.AppCc;
 import com.example.android.thepeachalliance2020._superDataClasses.Cst;
 import com.example.android.thepeachalliance2020.utils.AppUtils;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends DialogMaker {
 
     public static EditText et_matchNum;
     public static TextView tv_versionNumber, tv_teamNumber;
@@ -135,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    /*
+
     public void onClickStartScouting(View view) {
         if (InputManager.mScoutName.equals("unselected") || InputManager.mMatchNum == 0 || InputManager.mTeamNum == 0) {
             Toast.makeText(getBaseContext(), "There is null information!", Toast.LENGTH_SHORT).show();
@@ -147,6 +148,6 @@ public class MainActivity extends AppCompatActivity {
         else {
             open(PregameActivity.class, null, false, true);
         }
-    }*/
+    }
 
 }

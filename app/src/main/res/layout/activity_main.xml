@@ -73,4 +73,15 @@
         android:textSize="36sp"
         app:layout_constraintEnd_toStartOf="@+id/et_matchNum"
         app:layout_constraintTop_toTopOf="@+id/et_matchNum" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="134dp"
+        android:layout_height="75dp"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="32dp"
+        android:onClick="onClickStartScouting"
+        android:text="Scout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
