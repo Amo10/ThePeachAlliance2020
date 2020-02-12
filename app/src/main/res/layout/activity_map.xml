@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MapActivity">
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="850dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        app:srcCompat="@drawable/map_field_1"
+        tools:layout_editor_absoluteX="-7dp"
+        tools:layout_editor_absoluteY="46dp" />
+
+    <LinearLayout
+        android:id="@+id/botttomBtnLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/imageView"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_dropped"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="DROP" />
+
+        <Button
+            android:id="@+id/btn_foul"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="PIN FOUL - 0 " />
+
+        <Button
+            android:id="@+id/btn_undo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="UNDO" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/botttomBtnLayout"
+        android:layout_toRightOf="@id/imageView"
+        android:layout_weight="1">
+
+        <RelativeLayout
+            android:id="@+id/timerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_timer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="15"
+                android:textAlignment="center"
+                android:textSize="35dp" />
+
+        </RelativeLayout>
+
+        <ToggleButton
+            android:id="@+id/button11"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@id/timerLayout"
+            android:textAlignment="center"
+            android:textOff="CLIMB"
+            android:textOn="CLIMB"
+            android:textSize="28dp" />
+
+        <ToggleButton
+            android:id="@+id/button14"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@id/button11"
+            android:textAlignment="center"
+            android:textOff="DEF"
+            android:textOn="DEF"
+            android:textSize="28dp" />
+
+        <ToggleButton
+            android:id="@+id/button12"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@id/button14"
+            android:layout_marginEnd="0dp"
+            android:textOff="INCAP"
+            android:textOn="INCAP"
+            android:textSize="28dp" />
+
+        <Button
+            android:id="@+id/button13"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_below="@id/button12"
+            android:text="Button" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/left_menu"
+        android:layout_width="170dp"
+        android:layout_height="match_parent"
+        android:layout_above="@id/botttomBtnLayout"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="0dp" />
+
+    <FrameLayout
+        android:id="@+id/right_menu"
+        android:layout_width="170dp"
+        android:layout_height="match_parent"
+        android:layout_above="@id/botttomBtnLayout"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="680dp"
+        android:layout_marginTop="0dp">
+
+    </FrameLayout>
+
+</RelativeLayout>

@@ -146,7 +146,7 @@ public class MainActivity extends DialogMaker {
             Toast.makeText(getBaseContext(), "Please Input a Valid Match Number", Toast.LENGTH_SHORT).show();
         }
         else {
-            open(PregameActivity.class, null, false, true);
+            open(MapActivity.class, null, false, true);
         }
     }
 
