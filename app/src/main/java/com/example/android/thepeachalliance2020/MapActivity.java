@@ -37,6 +37,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class MapActivity extends DialogMaker {
 
@@ -131,6 +136,8 @@ public class MapActivity extends DialogMaker {
         }
     };
 
+    public List<Object> actionList;
+    public Map<Integer, List<Object>> actionDic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,6 +153,8 @@ public class MapActivity extends DialogMaker {
         btn_arrow = findViewById(R.id.btn_next);
         tv_team = findViewById(R.id.tv_teamNum);
         btn_drop = findViewById(R.id.btn_dropped);
+
+        btn_cyclesDefended = findViewById(R.id.btn_cyclesDefended);
 
         TimerUtil.mTimerView = findViewById(R.id.tv_timer);
 
@@ -173,6 +182,9 @@ public class MapActivity extends DialogMaker {
         btn_undo.setEnabled(false);
         //addTouchListener();
 
+        actionList = new ArrayList<Object>();
+        actionDic = new HashMap<Integer, List<Object>>();
+
         //Deincrement Fouls counter upon long click
         btn_foul.setOnLongClickListener((new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
@@ -195,7 +207,7 @@ public class MapActivity extends DialogMaker {
                 return true;
             }
         }));
-/*
+
         //Deincrement Cycles Defended counter upon long click.
         btn_cyclesDefended.setOnLongClickListener((new View.OnLongClickListener() {
             public boolean onLongClick(View v) {
@@ -219,7 +231,6 @@ public class MapActivity extends DialogMaker {
                 return true;
             }
         }));
- */
     }
 
     public void toAuto() {
@@ -442,6 +453,60 @@ public class MapActivity extends DialogMaker {
     }
 
      */
+
+    public void onClickDefense(View v) {
+        btn_climb = (Button) findViewById(R.id.btn_climb);
+        if (tb_defense.isChecked()) {
+            dismissPopups();
+            pw = true;
+            btn_climb.setEnabled(false);
+
+            //Show Cycles Defended tracker in UI.
+            InputManager.cyclesDefended = 0;
+            btn_cyclesDefended.setEnabled(true);
+            btn_cyclesDefended.setVisibility(View.VISIBLE);
+            btn_cyclesDefended.bringToFront();
+            btn_cyclesDefended.setText("FAILED PLACEMENTS/DROPS CAUSED - 0");
+
+            compressionDic = new JSONObject();
+
+            try {
+                compressionDic.put("type", "startDefense");
+                timestamp(TimerUtil.timestamp);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mRealTimeMatchData.put(compressionDic);
+
+            //mapChange();
+            undoDicAdder("NA", "NA", "defense");
+        } else if (!tb_defense.isChecked()) {
+            btn_climb.setEnabled(true);
+
+            //Remove Cycles Defended tracker from UI.
+            btn_cyclesDefended.setEnabled(false);
+            btn_cyclesDefended.setVisibility(View.INVISIBLE);
+
+            pw = true;
+
+            compressionDic = new JSONObject();
+
+            try {
+                compressionDic.put("type", "endDefense");
+                compressionDic.put("cyclesDefended", InputManager.cyclesDefended);
+                timestamp(TimerUtil.timestamp);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mRealTimeMatchData.put(compressionDic);
+
+            //mapChange();
+            undoDicAdder("NA", "NA", "undefense");
+        }
+    }
+
     //Record fouls and make foul counter go up
     public void onClickFoul(View v) throws JSONException {
         InputManager.numFoul++;
@@ -455,6 +520,12 @@ public class MapActivity extends DialogMaker {
         }
         mRealTimeMatchData.put(compressionDic);
         Log.i("mRealTimeMatchDataVals?", mRealTimeMatchData.toString());
+    }
+
+    //Increment when pressed.
+    public void onClickCyclesDefended(View v) {
+        InputManager.cyclesDefended++;
+        btn_cyclesDefended.setText("FAILED PLACEMENTS/DROPS CAUSED - " + InputManager.cyclesDefended);
     }
 
     //Add timestamp to objects in mRealTimeMatchData
@@ -472,6 +543,19 @@ public class MapActivity extends DialogMaker {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void undoDicAdder(Object xCoordinate, Object yCoordinate, String type) {
+        actionList = new ArrayList<Object>();
+        actionList.add(xCoordinate);
+        actionList.add(yCoordinate);
+        //actionList.add(mode);
+        actionList.add(type);
+        actionList.add(TimerUtil.timestamp);
+        actionDic.put(actionCount, actionList);
+        actionCount++;
+        didUndoOnce = false;
+        btn_undo.setEnabled(true);
     }
 
     public void onBackPressed() {

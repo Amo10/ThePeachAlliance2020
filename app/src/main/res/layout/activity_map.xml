@@ -12,6 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="-2dp"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         app:srcCompat="@drawable/map_field_1"
@@ -86,6 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_below="@id/btn_climb"
+            android:onClick="onClickDefense"
             android:textAlignment="center"
             android:textOff="DEF"
             android:textOn="DEF"
@@ -144,5 +147,21 @@
         android:layout_marginTop="0dp">
 
     </FrameLayout>
+
+    <Button
+        android:id="@+id/btn_cyclesDefended"
+        android:layout_width="328dp"
+        android:layout_height="79dp"
+        android:layout_alignEnd="@+id/imageView"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="275dp"
+        android:layout_marginTop="185dp"
+        android:layout_marginEnd="247dp"
+        android:layout_marginBottom="178dp"
+        android:onClick="onClickCyclesDefended"
+        android:text="Button"
+        android:visibility="invisible" />
 
 </RelativeLayout>
