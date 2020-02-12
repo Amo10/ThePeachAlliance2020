@@ -264,8 +264,7 @@ public class MapActivity extends DialogMaker {
             btn_foul.setEnabled(false);
             tb_auto_move.setEnabled(false);
             tb_auto_move.setChecked(false);
-            btn_climb.setEnabled(false);
-            btn_climb.setChecked(false);
+            //btn_climb.setEnabled(false);
             tb_auto_move.setEnabled(false);
             tb_auto_move.setChecked(false);
             teleButton.setEnabled(false);
