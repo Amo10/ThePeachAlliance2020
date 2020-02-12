@@ -34,6 +34,9 @@ public class InputManager {
     public static String mTabletID = "";
     public static int mMatchNum = 1;
     public static int mTeamNum = 0;
+    public static int numFoul = 0;
+
+    public static Boolean mAutoMove = false;
 
     public static String mAppVersion = "1.0";
     public static String mDatabaseURL;
@@ -103,21 +106,27 @@ public class InputManager {
             switch (mTabletID) {
                 case "Red 1":
                     mTeamNum = Cst.MATCH_LIST.get(mMatchNum).red1;
+                    mAllianceColor = "red";
                     break;
                 case "Red 2":
                     mTeamNum = Cst.MATCH_LIST.get(mMatchNum).red2;
+                    mAllianceColor = "red";
                     break;
                 case "Red 3":
                     mTeamNum = Cst.MATCH_LIST.get(mMatchNum).red3;
+                    mAllianceColor = "red";
                     break;
                 case "Blue 1":
                     mTeamNum = Cst.MATCH_LIST.get(mMatchNum).blue1;
+                    mAllianceColor = "blue";
                     break;
                 case "Blue 2":
                     mTeamNum = Cst.MATCH_LIST.get(mMatchNum).blue2;
+                    mAllianceColor = "blue";
                     break;
                 case "Blue 3":
                     mTeamNum = Cst.MATCH_LIST.get(mMatchNum).blue3;
+                    mAllianceColor = "blue";
                     break;
             }
         } else {
