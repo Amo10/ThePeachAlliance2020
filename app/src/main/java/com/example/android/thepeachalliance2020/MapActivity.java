@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -25,16 +26,16 @@ import static com.example.android.thepeachalliance2020.Managers.InputManager.mRe
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.tb_auto_move;
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.btn_startTimer;
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.teleButton;
+import static java.lang.String.valueOf;
 
 
-
-
-import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.FragmentManager;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class MapActivity extends DialogMaker {
@@ -76,8 +77,11 @@ public class MapActivity extends DialogMaker {
     public static ToggleButton tb_incap;
     public static ToggleButton tb_defense;
 
+    public TextView tv_team;
     public Button btn_arrow;
     public ImageView iv_field;
+
+    public JSONObject compressionDic;
 
     public Fragment fragmentp;
     public FragmentTransaction transactionp;
@@ -94,7 +98,7 @@ public class MapActivity extends DialogMaker {
     //Alert dialog pop up when 10 seconds into teleop
     public Runnable runnable = new Runnable() {
         public void run() {
-            //tv_team.setVisibility(View.INVISIBLE);
+            tv_team.setVisibility(View.INVISIBLE);
             btn_arrow.setEnabled(true);
             btn_arrow.setVisibility(View.VISIBLE);
         }
@@ -139,6 +143,10 @@ public class MapActivity extends DialogMaker {
         tb_defense = findViewById(R.id.tbtn_defence);
         btn_foul = findViewById(R.id.btn_foul);
         btn_climb = findViewById(R.id.btn_climb);
+        btn_arrow = findViewById(R.id.btn_next);
+        tv_team = findViewById(R.id.tv_teamNum);
+        btn_drop = findViewById(R.id.btn_dropped);
+
         TimerUtil.mTimerView = findViewById(R.id.tv_timer);
 
 
@@ -154,6 +162,64 @@ public class MapActivity extends DialogMaker {
         }
         transactionp.commit();
 
+        tv_team.setText(valueOf(InputManager.mTeamNum));
+
+        mRealTimeMatchData = new JSONArray();
+        InputManager.mOneTimeMatchData = new JSONObject();
+        InputManager.numFoul = 0;
+        InputManager.cyclesDefended = 0;
+
+        btn_drop.setEnabled(false);
+        btn_undo.setEnabled(false);
+        //addTouchListener();
+
+        //Deincrement Fouls counter upon long click
+        btn_foul.setOnLongClickListener((new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                if (InputManager.numFoul > 0) {
+                    int index = -1;
+                    for (int i = 0; i < mRealTimeMatchData.length(); i++) {
+                        try {
+                            String test = mRealTimeMatchData.getString(i);
+                            if (test.contains("foul")) {
+                                index = i;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    mRealTimeMatchData.remove(index);
+                    InputManager.numFoul--;
+                    btn_foul.setText("PIN FOUL - " + InputManager.numFoul);
+                }
+                return true;
+            }
+        }));
+/*
+        //Deincrement Cycles Defended counter upon long click.
+        btn_cyclesDefended.setOnLongClickListener((new View.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                if (InputManager.cyclesDefended > 0) {
+                    int index = -1;
+                    //Increment through mRealTimeMatchData to identify the last cyclesDefended to remove.
+                    for (int i = 0; i < mRealTimeMatchData.length(); i++) {
+                        try {
+                            String test = mRealTimeMatchData.getString(i);
+                            if (test.contains("cyclesDefended")) {
+                                index = i;
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    mRealTimeMatchData.remove(index);
+                    InputManager.cyclesDefended--;
+                    btn_cyclesDefended.setText("FAILED PLACEMENTS/DROPS CAUSED - " + InputManager.cyclesDefended);
+                }
+                return true;
+            }
+        }));
+ */
     }
 
     public void toAuto() {
@@ -231,8 +297,6 @@ public class MapActivity extends DialogMaker {
         teleWarningHandler.removeCallbacksAndMessages(null);
 
         TimerUtil.MatchTimerThread timerUtil = new TimerUtil.MatchTimerThread();
-
-        btn_drop = findViewById(R.id.btn_dropped);
 
         if (startTimer) {
             pw = true;
@@ -378,6 +442,60 @@ public class MapActivity extends DialogMaker {
     }
 
      */
+    //Record fouls and make foul counter go up
+    public void onClickFoul(View v) throws JSONException {
+        InputManager.numFoul++;
+        btn_foul.setText("PIN FOUL - " + InputManager.numFoul);
+        compressionDic = new JSONObject();
+        try {
+            compressionDic.put("type", "foul");
+            timestamp(TimerUtil.timestamp);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mRealTimeMatchData.put(compressionDic);
+        Log.i("mRealTimeMatchDataVals?", mRealTimeMatchData.toString());
+    }
 
+    //Add timestamp to objects in mRealTimeMatchData
+    public void timestamp(Float givenTime) {
+        if ((givenTime <= 135 && !tele) || (givenTime > 135 && tele)) {
+            try {
+                compressionDic.put("time", String.format("%.1f", givenTime) + "*");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                compressionDic.put("time", String.format("%.1f", givenTime));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    public void onBackPressed() {
+        final Activity activity = this;
+        new AlertDialog.Builder(this)
+                .setTitle("WARNING")
+                .setMessage("GOING BACK WILL CAUSE LOSS OF DATA")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        handler.removeCallbacks(runnable);
+                        handler.removeCallbacksAndMessages(null);
+
+                        teleWarningHandler.removeCallbacks(teleWarningRunnable);
+                        teleWarningHandler.removeCallbacksAndMessages(null);
+
+                        activity.finish();
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
 }

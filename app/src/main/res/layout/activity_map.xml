@@ -37,6 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:onClick="onClickFoul"
             android:text="PIN FOUL - 0 " />
 
         <Button
@@ -101,11 +102,24 @@
             android:textSize="28dp" />
 
         <Button
-            android:id="@+id/button13"
+            android:id="@+id/btn_next"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_below="@id/tbtn_incap"
-            android:text="Button" />
+            android:text="FINISH"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tv_teamNum"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tbtn_incap"
+            android:paddingTop="10dp"
+            android:text="TEAM"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="35dp"
+            tools:visibility="visible" />
 
     </RelativeLayout>
 

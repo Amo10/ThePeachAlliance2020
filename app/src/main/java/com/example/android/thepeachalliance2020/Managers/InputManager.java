@@ -37,6 +37,7 @@ public class InputManager {
     public static int numFoul = 0;
 
     public static Boolean mAutoMove = false;
+    public static int cyclesDefended = 0;
 
     public static String mAppVersion = "1.0";
     public static String mDatabaseURL;
