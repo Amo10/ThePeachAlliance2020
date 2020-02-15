@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -68,6 +69,8 @@ public class MapActivity extends DialogMaker {
     public boolean dropClick = false;
     public boolean selectDialogOpen = false;
     public boolean shotDialogOpen = false;
+    public boolean climbDialogOpen = false;
+
     public boolean isPopupOpen = false;
 
     public int actionCount;
@@ -87,7 +90,7 @@ public class MapActivity extends DialogMaker {
 
     public ConstraintLayout selectDialogLayout;
     public ConstraintLayout shotDialogLayout;
-
+    public ConstraintLayout climbDialogLayout;
 
     public static Button btn_drop;
     public static Button btn_foul;
@@ -119,6 +122,8 @@ public class MapActivity extends DialogMaker {
 
     //Shot Popup Window
     public TextView tv_shotTitle;
+
+    public ImageView iv_game_element;
 
 
     public Handler handler = new Handler();
@@ -163,6 +168,7 @@ public class MapActivity extends DialogMaker {
 
     public Dialog placementDialog;
     public Dialog shotDialog;
+    public Dialog climbDialog;
 
 
     @Override
@@ -221,6 +227,9 @@ public class MapActivity extends DialogMaker {
 
         actionList = new ArrayList<Object>();
         actionDic = new HashMap<Integer, List<Object>>();
+
+
+        iv_game_element = new ImageView(getApplicationContext());
 
         //Deincrement Fouls counter upon long click
         btn_foul.setOnLongClickListener((new View.OnLongClickListener() {
@@ -440,18 +449,6 @@ public class MapActivity extends DialogMaker {
         });
     }
 
-    public void initPopup(PopupWindow pw2) {
-        if (timerCheck) {
-            isPopupOpen = true;
-            //Set coordinates and size of popup based on tablet type
-            if (mTabletType.equals("fire")) {
-                pw2.showAtLocation(overallLayout, Gravity.NO_GRAVITY, 150, 100);
-            }
-            pw = false;
-
-        }
-    }
-
     public void initSelect() {
         placementDialog = new Dialog(this);
         placementDialog.setCanceledOnTouchOutside(false);
@@ -491,7 +488,21 @@ public class MapActivity extends DialogMaker {
         tv_shotTitle.setText(shotType + " Shot");
         shotDialog.setContentView(shotDialogLayout);
         shotDialog.show();
+    }
 
+    public void onClickClimb(View view){
+        climbDialogOpen = true;
+        initClimb();
+    }
+
+    public void initClimb(){
+        climbDialogOpen = true;
+        climbDialog = new Dialog(this);
+        climbDialog.setCanceledOnTouchOutside(false);
+        climbDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        climbDialogLayout = (ConstraintLayout) this.getLayoutInflater().inflate(R.layout.map_popup_climb, null);
+        climbDialog.setContentView(climbDialogLayout);
+        climbDialog.show();
     }
 
     public void onClickCancelShot(View view) {
@@ -499,6 +510,30 @@ public class MapActivity extends DialogMaker {
         shotDialogOpen = false;
         shotDialog.dismiss();
     }
+
+    public void onClickDone(View view) {
+        initShape();
+    }
+
+    public void initShape() {
+        pw = true;
+        overallLayout.removeView(iv_game_element);
+
+        iv_game_element.setImageDrawable(getResources().getDrawable(R.drawable.map_indicator_cargo));
+        undoDicAdder(x, y, "cargo");
+
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                100,
+                100);
+
+        lp.setMargins(x - 50, y - 50, 0, 0);
+        iv_game_element.setLayoutParams(lp);
+        ((ViewGroup) overallLayout).addView(iv_game_element);
+
+        //mapChange();
+    }
+
+
 
     //Set map drawable based user mode
     /*
