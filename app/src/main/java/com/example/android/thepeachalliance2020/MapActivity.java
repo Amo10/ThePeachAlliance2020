@@ -1,13 +1,19 @@
 package com.example.android.thepeachalliance2020;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -21,6 +27,7 @@ import com.example.android.thepeachalliance2020.utils.PregameDialog;
 import com.example.android.thepeachalliance2020.Managers.InputManager;
 
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mRealTimeMatchData;
+import static com.example.android.thepeachalliance2020.Managers.InputManager.mTabletType;
 
 
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.tb_auto_move;
@@ -29,6 +36,7 @@ import static com.example.android.thepeachalliance2020.utils.AutoDialog.teleButt
 import static java.lang.String.valueOf;
 
 
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.fragment.app.FragmentManager;
@@ -47,6 +55,7 @@ public class MapActivity extends DialogMaker {
 
     final Activity activity = this;
 
+    public LayoutInflater layoutInflater;
 
     public boolean modeIsIntake = true;
     public static boolean startTimer = true;
@@ -57,7 +66,8 @@ public class MapActivity extends DialogMaker {
     public boolean pw = true;
     public boolean isMapLeft = false;
     public boolean dropClick = false;
-    public boolean placementDialogOpen = false;
+    public boolean selectDialogOpen = false;
+    public boolean shotDialogOpen = false;
     public boolean isPopupOpen = false;
 
     public int actionCount;
@@ -71,7 +81,13 @@ public class MapActivity extends DialogMaker {
     public Integer undoX;
     public Integer undoY;
 
-    public RelativeLayout placementDialogLayout;
+    public String shotType = "";
+    public int x;
+    public int y;
+
+    public ConstraintLayout selectDialogLayout;
+    public ConstraintLayout shotDialogLayout;
+
 
     public static Button btn_drop;
     public static Button btn_foul;
@@ -99,6 +115,12 @@ public class MapActivity extends DialogMaker {
     public PopupWindow popup_fail_success = new PopupWindow();
     public PopupWindow popup_drop_defense = new PopupWindow();
 
+    public RelativeLayout overallLayout;
+
+    //Shot Popup Window
+    public TextView tv_shotTitle;
+
+
     public Handler handler = new Handler();
     //Alert dialog pop up when 10 seconds into teleop
     public Runnable runnable = new Runnable() {
@@ -118,7 +140,7 @@ public class MapActivity extends DialogMaker {
                             public void onClick(DialogInterface dialog, int which) {
                                 popup.dismiss();
                                 popup_fail_success.dismiss();
-                                if (placementDialogOpen) {
+                                if (shotDialogOpen) {
                                     //placementDialog.dismiss();
                                 }
                                 pw = true;
@@ -138,6 +160,10 @@ public class MapActivity extends DialogMaker {
 
     public List<Object> actionList;
     public Map<Integer, List<Object>> actionDic;
+
+    public Dialog placementDialog;
+    public Dialog shotDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,6 +189,17 @@ public class MapActivity extends DialogMaker {
         fmp = getSupportFragmentManager();
         transactionp = fmp.beginTransaction();
 
+        overallLayout = findViewById(R.id.field);
+
+        layoutInflater = (LayoutInflater) MapActivity.this.getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        //Set how big popups are for each tablet type
+        if (mTabletType.equals("fire")) {
+            popup = new PopupWindow((ConstraintLayout) layoutInflater.inflate(R.layout.map_popup_select, null), 620, 450, false);
+        }
+        popup.setOutsideTouchable(false);
+        popup.setFocusable(false);
+
 
         if (InputManager.mAllianceColor.equals("red")) {
             transactionp.add(R.id.left_menu, fragmentp, "FRAGMENTPREGAME");
@@ -180,7 +217,7 @@ public class MapActivity extends DialogMaker {
 
         btn_drop.setEnabled(false);
         btn_undo.setEnabled(false);
-        //addTouchListener();
+        addTouchListener();
 
         actionList = new ArrayList<Object>();
         actionDic = new HashMap<Integer, List<Object>>();
@@ -374,6 +411,95 @@ public class MapActivity extends DialogMaker {
              */
         }
     }
+
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void addTouchListener() {
+        overallLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (pw && timerCheck) {
+                        x = (int) motionEvent.getX();
+                        y = (int) motionEvent.getY();
+                        Log.e("Xcoordinate", String.valueOf(x));
+                        Log.e("Ycoordinate", String.valueOf(y));
+
+                        //Set coordinates of map based on tablet type
+                            if (!(x > 1130 || y > 580)) {
+                                pw = true;
+                                initSelect();
+                                //initPlacement();
+                                modeIsIntake = false;
+                                selectDialogOpen = true;
+                            }
+                    }
+                }
+                return false;
+            }
+        });
+    }
+
+    public void initPopup(PopupWindow pw2) {
+        if (timerCheck) {
+            isPopupOpen = true;
+            //Set coordinates and size of popup based on tablet type
+            if (mTabletType.equals("fire")) {
+                pw2.showAtLocation(overallLayout, Gravity.NO_GRAVITY, 150, 100);
+            }
+            pw = false;
+
+        }
+    }
+
+    public void initSelect() {
+        placementDialog = new Dialog(this);
+        placementDialog.setCanceledOnTouchOutside(false);
+        placementDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        selectDialogLayout = (ConstraintLayout) this.getLayoutInflater().inflate(R.layout.map_popup_select, null);
+        placementDialog.setContentView(selectDialogLayout);
+        placementDialog.show();
+    }
+
+    public void onClickCancelSelect(View view) {
+        pw = true;
+        selectDialogOpen = false;
+        placementDialog.dismiss();
+    }
+
+    public void onClickHigh(View view) {
+        shotType = "High";
+        selectDialogOpen = false;
+        placementDialog.dismiss();
+        initShot();
+    }
+
+    public void onClickLow(View view) {
+        shotType = "Low";
+        selectDialogOpen = false;
+        placementDialog.dismiss();
+        initShot();
+    }
+
+    public void initShot(){
+        shotDialogOpen = true;
+        shotDialog = new Dialog(this);
+        shotDialog.setCanceledOnTouchOutside(false);
+        shotDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        shotDialogLayout = (ConstraintLayout) this.getLayoutInflater().inflate(R.layout.map_popup_shot, null);
+        tv_shotTitle = shotDialogLayout.findViewById(R.id.tv_shotTitle);
+        tv_shotTitle.setText(shotType + " Shot");
+        shotDialog.setContentView(shotDialogLayout);
+        shotDialog.show();
+
+    }
+
+    public void onClickCancelShot(View view) {
+        pw = true;
+        shotDialogOpen = false;
+        shotDialog.dismiss();
+    }
+
     //Set map drawable based user mode
     /*
     public void mapChange() {

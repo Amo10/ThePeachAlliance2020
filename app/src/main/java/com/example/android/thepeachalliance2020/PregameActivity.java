@@ -1,8 +1,8 @@
 package com.example.android.thepeachalliance2020;
 
-import android.os.Bundle;
+        import android.os.Bundle;
 
-import com.example.android.thepeachalliance2020._superActivities.DialogMaker;
+        import com.example.android.thepeachalliance2020._superActivities.DialogMaker;
 
 public class PregameActivity extends DialogMaker {
 

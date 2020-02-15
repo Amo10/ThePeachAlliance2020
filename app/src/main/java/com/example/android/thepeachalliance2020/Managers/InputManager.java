@@ -32,6 +32,7 @@ public class InputManager {
     public static String mAllianceColor = "";
     public static String mScoutName = "unselected";
     public static String mTabletID = "";
+    public static String mTabletType = "fire";
     public static int mMatchNum = 1;
     public static int mTeamNum = 0;
     public static int numFoul = 0;
