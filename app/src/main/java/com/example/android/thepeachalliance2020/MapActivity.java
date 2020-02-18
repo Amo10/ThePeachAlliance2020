@@ -213,6 +213,14 @@ public class MapActivity extends DialogMaker {
         }
         transactionp.commit();
 
+        if (TimerUtil.matchTimer != null) {
+            TimerUtil.matchTimer.cancel();
+            TimerUtil.matchTimer = null;
+            TimerUtil.timestamp = 0f;
+            TimerUtil.mTimerView.setText("15");
+            startTimer = true;
+        }
+
         tv_team.setText(valueOf(InputManager.mTeamNum));
 
         mRealTimeMatchData = new JSONArray();

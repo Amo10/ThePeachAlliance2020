@@ -31,10 +31,14 @@ public class MainActivity extends DialogMaker {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+// Permission has already been granted
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
-            Log.i("uh oh", "Hmm");
+            Toast.makeText(getBaseContext(), "Go TO SETTINGS and add permissions", Toast.LENGTH_LONG).show();
             // Permission is not granted
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(this,
@@ -51,28 +55,28 @@ public class MainActivity extends DialogMaker {
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant. The callback method gets the
                 // result of the request.
+
+                //Set Scout ID from stored data
+                //InputManager.mScoutId = AppCc.getSp("scoutId", 0);
+                InputManager.getScoutNames();
+                initViews();
+                initPopups();
+                initListeners();
+
+                //InputManager.recoverUserData();
+                updateUserData();
             }
         } else {
-            // Permission has already been granted
+            //Set Scout ID from stored data
+            //InputManager.mScoutId = AppCc.getSp("scoutId", 0);
+            InputManager.getScoutNames();
+            initViews();
+            initPopups();
+            initListeners();
+
+            //InputManager.recoverUserData();
+            updateUserData();
         }
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-        //Set Scout ID from stored data
-        //InputManager.mScoutId = AppCc.getSp("scoutId", 0);
-
-
-        InputManager.getScoutNames();
-        initViews();
-        initPopups();
-        initListeners();
-
-        //InputManager.recoverUserData();
-        updateUserData();
-
-
     }
 
     //Set all UI text values
