@@ -16,6 +16,8 @@ import com.example.android.thepeachalliance2020.utils.AppUtils;
 import com.example.android.thepeachalliance2020._superDataClasses.Match;
 import com.example.android.thepeachalliance2020._superDataClasses.Cst;
 
+import androidx.core.content.ContextCompat;
+import android.content.pm.PackageManager;
 
 public class InputManager {
     //Match Data Holders
@@ -178,3 +180,5 @@ public class InputManager {
     }
 
 }
+
+

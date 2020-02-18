@@ -1,15 +1,11 @@
 package com.example.android.thepeachalliance2020;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import android.Manifest;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -18,13 +14,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.example.android.thepeachalliance2020.Managers.InputManager;
 import com.example.android.thepeachalliance2020._superActivities.DialogMaker;
-import com.example.android.thepeachalliance2020._superDataClasses.AppCc;
 import com.example.android.thepeachalliance2020._superDataClasses.Cst;
 import com.example.android.thepeachalliance2020.utils.AppUtils;
 
 public class MainActivity extends DialogMaker {
+
 
     public static EditText et_matchNum;
     public static TextView tv_versionNumber, tv_teamNumber;
@@ -32,6 +31,30 @@ public class MainActivity extends DialogMaker {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Log.i("uh oh", "Hmm");
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                int test = 0;
+                ActivityCompat.requestPermissions(this,
+                        new String[]{ android.Manifest.permission.READ_EXTERNAL_STORAGE}, test);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
+        }
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
