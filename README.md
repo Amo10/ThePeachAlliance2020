@@ -1,4 +1,3 @@
 # ThePeachAlliance2020
 
-Add a scout folder under sdcard
-Add Scouts.txt to the folder
+Add a scout folder under sdcard \n Add Scouts.txt to the folder
