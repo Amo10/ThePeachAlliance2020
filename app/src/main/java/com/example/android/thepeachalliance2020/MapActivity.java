@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;;
 import com.example.android.thepeachalliance2020._superActivities.DialogMaker;
 import com.example.android.thepeachalliance2020.utils.AutoDialog;
@@ -28,11 +29,16 @@ import com.example.android.thepeachalliance2020.Managers.InputManager;
 
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mRealTimeMatchData;
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mTabletType;
+import static com.example.android.thepeachalliance2020.Managers.InputManager.isNoShow;
 
 
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.tb_auto_move;
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.btn_startTimer;
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.teleButton;
+
+import static com.example.android.thepeachalliance2020.utils.PregameDialog.btn_to_auto;
+import static com.example.android.thepeachalliance2020.utils.PregameDialog.tb_noshow;
+import static com.example.android.thepeachalliance2020.utils.PregameDialog.r_preload;
 import static java.lang.String.valueOf;
 
 
@@ -69,6 +75,8 @@ public class MapActivity extends DialogMaker {
     public boolean selectDialogOpen = false;
     public boolean shotDialogOpen = false;
     public boolean climbDialogOpen = false;
+    public boolean isPregame = true;
+    public boolean pregamePlace = false;
 
     public boolean isPopupOpen = false;
 
@@ -219,8 +227,9 @@ public class MapActivity extends DialogMaker {
             TimerUtil.timestamp = 0f;
             TimerUtil.mTimerView.setText("15");
             startTimer = true;
+            pw = false;
         }
-
+        InputManager.isNoShow = false;
         tv_team.setText(valueOf(InputManager.mTeamNum));
 
         mRealTimeMatchData = new JSONArray();
@@ -287,28 +296,35 @@ public class MapActivity extends DialogMaker {
     }
 
     public void toAuto() {
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag("FRAGMENTPREGAME");
-        if (fragment != null)
-            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        if (!pregamePlace || (r_preload.getCheckedRadioButtonId() == -1))  {
+            Toast.makeText(getBaseContext(), "Make Sure You Filled Out All Of The Information!",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            InputManager.isNoShow = false;
+            Fragment fragment = getSupportFragmentManager().findFragmentByTag("FRAGMENTPREGAME");
+            if (fragment != null)
+                getSupportFragmentManager().beginTransaction().remove(fragment).commit();
 
-        fragmenta = new AutoDialog();
-        fma = getSupportFragmentManager();
-        transactiona = fma.beginTransaction();
+            fragmenta = new AutoDialog();
+            fma = getSupportFragmentManager();
+            transactiona = fma.beginTransaction();
 
 
-        if (InputManager.mAllianceColor.equals("red")) {
+            if (InputManager.mAllianceColor.equals("red")) {
                 transactiona.add(R.id.left_menu, fragmenta, "FRAGMENTAUTO");
             } else if (InputManager.mAllianceColor.equals("blue")) {
                 transactiona.add(R.id.right_menu, fragmenta, "FRAGMENTAUTO");
             }
             transactiona.commit();
 
-        if (TimerUtil.matchTimer != null) {
-            TimerUtil.matchTimer.cancel();
-            TimerUtil.matchTimer = null;
-            TimerUtil.timestamp = 0f;
-            TimerUtil.mTimerView.setText("15");
-            startTimer = true;
+            if (TimerUtil.matchTimer != null) {
+                TimerUtil.matchTimer.cancel();
+                TimerUtil.matchTimer = null;
+                TimerUtil.timestamp = 0f;
+                TimerUtil.mTimerView.setText("15");
+                startTimer = true;
+            }
+            isPregame = false;
         }
     }
 
@@ -449,6 +465,16 @@ public class MapActivity extends DialogMaker {
                                 modeIsIntake = false;
                                 selectDialogOpen = true;
                             }
+                    } else if (isPregame && !tb_noshow.isChecked()) {
+                        x = (int) motionEvent.getX();
+                        y = (int) motionEvent.getY();
+                        Log.e("Xcoordinate", String.valueOf(x));
+                        Log.e("Ycoordinate", String.valueOf(y));
+
+                        //Set coordinates of map based on tablet type
+                        if (!(x > 1130 || y > 580)) {
+                            placePregame();
+                        }
                     }
                 }
                 return false;
@@ -463,6 +489,11 @@ public class MapActivity extends DialogMaker {
         selectDialogLayout = (ConstraintLayout) this.getLayoutInflater().inflate(R.layout.map_popup_select, null);
         placementDialog.setContentView(selectDialogLayout);
         placementDialog.show();
+    }
+
+    public void placePregame() {
+        initShape();
+        pregamePlace = true;
     }
 
     public void onClickCancelSelect(View view) {
@@ -749,5 +780,41 @@ public class MapActivity extends DialogMaker {
                 })
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    //Records if a robot showed up
+    public void onClickShowUp(View view) {
+        //If the show up button is already checked, disables map based buttons
+        if (tb_noshow.isChecked()) {
+            tv_team.setVisibility(View.INVISIBLE);
+            btn_arrow.setEnabled(true);
+            btn_arrow.setVisibility(View.VISIBLE);
+            btn_to_auto.setEnabled(false);
+        } else {
+            tv_team.setVisibility(View.VISIBLE);
+            btn_arrow.setEnabled(false);
+            btn_arrow.setVisibility(View.INVISIBLE);
+            btn_to_auto.setEnabled(true);
+        }
+
+    }
+
+    //Move to next activity and saves defense data
+    public void onClickDataCheck(View v) {
+        if (tb_defense.isChecked()) {
+            compressionDic = new JSONObject();
+
+            try {
+                compressionDic.put("type", "endDefense");
+                compressionDic.put("cyclesDefended", InputManager.cyclesDefended);
+                timestamp(TimerUtil.timestamp);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mRealTimeMatchData.put(compressionDic);
+        }
+
+        open(DataCheckActivity.class, null, false, true);
     }
 }

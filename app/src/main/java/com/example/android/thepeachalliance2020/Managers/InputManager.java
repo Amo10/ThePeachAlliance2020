@@ -38,6 +38,7 @@ public class InputManager {
     public static int mMatchNum = 1;
     public static int mTeamNum = 0;
     public static int numFoul = 0;
+    public static Boolean isNoShow = true;
 
     public static Boolean mAutoMove = false;
     public static int cyclesDefended = 0;

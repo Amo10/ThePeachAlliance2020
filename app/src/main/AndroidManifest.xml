@@ -35,6 +35,10 @@
             android:label="Map"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".DataCheckActivity"
+            android:label="Data"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
     </application>
 
 </manifest>
