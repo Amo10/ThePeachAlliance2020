@@ -72,6 +72,8 @@ public class DataCheckActivity extends DialogMaker {
             InputManager.mMatchNum = AppUtils.StringToInt(et_matchNum.getText().toString());
             //Records all match data. Put all OneTimeMatchData in mOneTimeMatchData to compress into header.
             try {
+                InputManager.mOneTimeMatchData.put("startingLocation", InputManager.mStartPos);
+                InputManager.mOneTimeMatchData.put("preload", InputManager.mPreload);
                 InputManager.mOneTimeMatchData.put("isNoShow", InputManager.isNoShow);
                 InputManager.mOneTimeMatchData.put("scoutName", InputManager.mScoutName);
                 InputManager.mOneTimeMatchData.put("appVersion", InputManager.mAppVersion);

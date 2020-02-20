@@ -27,7 +27,9 @@ import com.example.android.thepeachalliance2020.utils.TimerUtil;
 import com.example.android.thepeachalliance2020.utils.PregameDialog;
 import com.example.android.thepeachalliance2020.Managers.InputManager;
 
+import static com.example.android.thepeachalliance2020.Managers.InputManager.mPreload;
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mRealTimeMatchData;
+import static com.example.android.thepeachalliance2020.Managers.InputManager.mStartPos;
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mTabletType;
 import static com.example.android.thepeachalliance2020.Managers.InputManager.isNoShow;
 
@@ -39,6 +41,11 @@ import static com.example.android.thepeachalliance2020.utils.AutoDialog.teleButt
 import static com.example.android.thepeachalliance2020.utils.PregameDialog.btn_to_auto;
 import static com.example.android.thepeachalliance2020.utils.PregameDialog.tb_noshow;
 import static com.example.android.thepeachalliance2020.utils.PregameDialog.r_preload;
+import static com.example.android.thepeachalliance2020.utils.PregameDialog.r_load0;
+import static com.example.android.thepeachalliance2020.utils.PregameDialog.r_load1;
+import static com.example.android.thepeachalliance2020.utils.PregameDialog.r_load2;
+import static com.example.android.thepeachalliance2020.utils.PregameDialog.r_load3;
+
 import static java.lang.String.valueOf;
 
 
@@ -229,7 +236,7 @@ public class MapActivity extends DialogMaker {
             startTimer = true;
             pw = false;
         }
-        InputManager.isNoShow = false;
+        InputManager.isNoShow = true;
         tv_team.setText(valueOf(InputManager.mTeamNum));
 
         mRealTimeMatchData = new JSONArray();
@@ -325,6 +332,18 @@ public class MapActivity extends DialogMaker {
                 startTimer = true;
             }
             isPregame = false;
+
+            // add values selected
+            mStartPos = "[" + x + "," + y + "]";
+            if (r_load0.isChecked()) {
+                mPreload = 0;
+            } else if (r_load1.isChecked()) {
+                mPreload = 1;
+            } else if (r_load2.isChecked()) {
+                mPreload = 2;
+            } else if (r_load3.isChecked()) {
+                mPreload = 3;
+            }
         }
     }
 
@@ -380,8 +399,8 @@ public class MapActivity extends DialogMaker {
 
         if (startTimer) {
             pw = true;
-            handler.postDelayed(runnable, 150000);
-            teleWarningHandler.postDelayed(teleWarningRunnable, 25000);
+            handler.postDelayed(runnable, 15000); //Should be 150000
+            teleWarningHandler.postDelayed(teleWarningRunnable, 5000); //Should be 25000
             timerUtil.initTimer();
             btn_startTimer.setText("RESET TIMER");
             timerCheck = true;

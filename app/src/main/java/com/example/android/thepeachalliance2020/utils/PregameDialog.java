@@ -21,6 +21,11 @@ public class PregameDialog extends Fragment {
     public static Button btn_to_auto;
     public static ToggleButton tb_noshow;
     public static RadioGroup r_preload;
+    public static RadioButton r_load0;
+    public static RadioButton r_load1;
+    public static RadioButton r_load2;
+    public static RadioButton r_load3;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,6 +37,10 @@ public class PregameDialog extends Fragment {
             btn_to_auto =view.findViewById(R.id.btn_to_auto);
             tb_noshow = view.findViewById(R.id.tb_noshow);
             r_preload = view.findViewById(R.id.r_preload);
+            r_load0 = view.findViewById(R.id.r_load0);
+            r_load1 = view.findViewById(R.id.r_load1);
+            r_load2 = view.findViewById(R.id.r_load2);
+            r_load3 = view.findViewById(R.id.r_load3);
         }
         else if(InputManager.mAllianceColor.equals("blue")) {
             view = inflater.inflate(R.layout.map_pregame_blue, container, false);
@@ -39,6 +48,10 @@ public class PregameDialog extends Fragment {
             btn_to_auto =view.findViewById(R.id.btn_to_auto);
             tb_noshow = view.findViewById(R.id.tb_noshow);
             r_preload = view.findViewById(R.id.r_preload);
+            r_load0 = view.findViewById(R.id.r_load0);
+            r_load1 = view.findViewById(R.id.r_load1);
+            r_load2 = view.findViewById(R.id.r_load2);
+            r_load3 = view.findViewById(R.id.r_load3);
         }
 
         return view;

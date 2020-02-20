@@ -27,25 +27,18 @@ public interface Cst {
 
     //Stores manual compression keys that aren't separated by commas
     Map<String, String> initialCompressKeys = new HashMap<String, String>() {{
-        put("startingLevel", "a");
-        put("crossedHabLine", "b");
-        put("startingLocation", "c");
-        put("preload", "d");
-        put("isNoShow", "f");
-        put("timerStarted", "g");
-        put("currentCycle", "h");
-        put("scoutID", "j");
-        put("scoutName", "k");
-        put("appVersion", "m");
-        put("assignmentMode", "n");
-        put("assignmentFileTimestamp", "p");
-        put("sandstormEndPosition", "G");
+        put("startingLocation", "a");
+        put("preload", "b");
+        put("isNoShow", "c");
+        put("scoutID", "d");
+        put("appVersion", "e");
     }};
     //Compresses specific keys as letters
     Map<String, String> compressKeys = new HashMap<String, String>() {{
 
 
-        put("cyclesDefended", "J");        put("type", "r");
+        put("cyclesDefended", "J");
+        put("type", "r");
         put("time", "s");
 
         put("piece", "t");

@@ -59,6 +59,7 @@ public class QRDisplayActivity extends DialogMaker {
 
         String qrScoutData = OutputManager.compressMatchData(InputManager.mRealTimeInputtedData);
         showMatchQR(qrScoutData);
+        Log.e("Output DATA after COMP", qrScoutData);
 
         writeFileOnInternalStorage(("Q" + InputManager.mMatchNum + "_" + new SimpleDateFormat("MM-dd-yyyy-H:mm:ss").format(new Date())), qrScoutData);
     }

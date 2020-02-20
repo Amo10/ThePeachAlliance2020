@@ -40,6 +40,8 @@ public class InputManager {
     public static int numFoul = 0;
     public static Boolean isNoShow = true;
     public static String mScoutLetter = "A";
+    public static String mStartPos = "";
+    public static int mPreload = 0;
 
     public static Boolean mAutoMove = false;
     public static int cyclesDefended = 0;
