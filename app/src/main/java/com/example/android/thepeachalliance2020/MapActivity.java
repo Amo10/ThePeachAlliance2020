@@ -220,6 +220,11 @@ public class MapActivity extends DialogMaker {
         popup.setOutsideTouchable(false);
         popup.setFocusable(false);
 
+        btn_climb.setEnabled(false);
+        tb_defense.setEnabled(false);
+        tb_incap.setEnabled(false);
+        btn_foul.setEnabled(false);
+        btn_undo.setEnabled(false);
 
         if (InputManager.mAllianceColor.equals("red")) {
             transactionp.add(R.id.left_menu, fragmentp, "FRAGMENTPREGAME");
@@ -491,7 +496,9 @@ public class MapActivity extends DialogMaker {
                         Log.e("Ycoordinate", String.valueOf(y));
 
                         //Set coordinates of map based on tablet type
-                        if (!(x > 1130 || y > 580)) {
+                        if (!(x > 1130 || y > 580 || x < 225) && InputManager.mAllianceColor.equals("red")) {
+                            placePregame();
+                        } else if (!(x > 915 || y > 580) && InputManager.mAllianceColor.equals("blue")) {
                             placePregame();
                         }
                     }
@@ -511,7 +518,7 @@ public class MapActivity extends DialogMaker {
     }
 
     public void placePregame() {
-        initShape();
+        initPregameShape();
         pregamePlace = true;
     }
 
@@ -578,6 +585,23 @@ public class MapActivity extends DialogMaker {
 
         iv_game_element.setImageDrawable(getResources().getDrawable(R.drawable.map_indicator_cargo));
         undoDicAdder(x, y, "cargo");
+
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                100,
+                100);
+
+        lp.setMargins(x - 50, y - 50, 0, 0);
+        iv_game_element.setLayoutParams(lp);
+        ((ViewGroup) overallLayout).addView(iv_game_element);
+
+        //mapChange();
+    }
+
+    public void initPregameShape() {
+        pw = true;
+        overallLayout.removeView(iv_game_element);
+
+        iv_game_element.setImageDrawable(getResources().getDrawable(R.drawable.map_indicator_cargo));
 
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                 100,
