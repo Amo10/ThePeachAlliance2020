@@ -833,11 +833,19 @@ public class MapActivity extends DialogMaker {
             btn_arrow.setEnabled(true);
             btn_arrow.setVisibility(View.VISIBLE);
             btn_to_auto.setEnabled(false);
+            r_load0.setEnabled(false);
+            r_load1.setEnabled(false);
+            r_load2.setEnabled(false);
+            r_load3.setEnabled(false);
         } else {
             tv_team.setVisibility(View.VISIBLE);
             btn_arrow.setEnabled(false);
             btn_arrow.setVisibility(View.INVISIBLE);
             btn_to_auto.setEnabled(true);
+            r_load0.setEnabled(true);
+            r_load1.setEnabled(true);
+            r_load2.setEnabled(true);
+            r_load3.setEnabled(true);
         }
 
     }
