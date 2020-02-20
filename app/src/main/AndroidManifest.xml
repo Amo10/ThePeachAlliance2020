@@ -39,6 +39,11 @@
             android:label="Data"
             android:screenOrientation="landscape"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+
+        <activity android:name=".utils.QRDisplayActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="QR"
+            android:screenOrientation="landscape" />
     </application>
 
 </manifest>

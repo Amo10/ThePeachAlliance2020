@@ -15,9 +15,9 @@ import org.json.JSONException;
 
 import com.example.android.thepeachalliance2020.Managers.InputManager;
 import com.example.android.thepeachalliance2020._superDataClasses.Cst;
-import com.example.android.thepeachalliance2020._superDataClasses.AppCc;
 import com.example.android.thepeachalliance2020._superActivities.DialogMaker;
 import com.example.android.thepeachalliance2020.utils.AppUtils;
+import com.example.android.thepeachalliance2020.utils.QRDisplayActivity;
 
 import static java.lang.String.valueOf;
 
@@ -53,7 +53,6 @@ public class DataCheckActivity extends DialogMaker {
         name_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long arg3) {
                 InputManager.mScoutName = name_spinner.getSelectedItem().toString();
-                //AppCc.setSp("scoutName", InputManager.mScoutName);
             }
 
             public void onNothingSelected(AdapterView<?> parent) {
@@ -79,7 +78,7 @@ public class DataCheckActivity extends DialogMaker {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            //open(QRDisplayActivity.class, null, false, false);
+            open(QRDisplayActivity.class, null, false, false);
         }
     }
 

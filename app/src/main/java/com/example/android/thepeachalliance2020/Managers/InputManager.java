@@ -39,6 +39,7 @@ public class InputManager {
     public static int mTeamNum = 0;
     public static int numFoul = 0;
     public static Boolean isNoShow = true;
+    public static String mScoutLetter = "A";
 
     public static Boolean mAutoMove = false;
     public static int cyclesDefended = 0;
@@ -178,6 +179,11 @@ public class InputManager {
 
         }
         return matches;
+    }
+
+    //Generate match key with specific match information
+    public static void initMatchKey() {
+        matchKey = mTeamNum + "Q" + mMatchNum + "-" + mScoutName;
     }
 
 }
