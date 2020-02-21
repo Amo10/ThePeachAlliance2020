@@ -87,7 +87,7 @@
             android:textSize="28dp" />
 
         <ToggleButton
-            android:id="@+id/tbtn_defence"
+            android:id="@+id/tbtn_defense"
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:layout_below="@id/btn_climb"
@@ -101,7 +101,7 @@
             android:id="@+id/tbtn_incap"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_below="@id/tbtn_defence"
+            android:layout_below="@id/tbtn_defense"
             android:layout_marginEnd="0dp"
             android:onClick="onClickIncap"
             android:textOff="INCAP"

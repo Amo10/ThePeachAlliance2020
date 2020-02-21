@@ -17,6 +17,8 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,8 +33,6 @@ import static com.example.android.thepeachalliance2020.Managers.InputManager.mPr
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mRealTimeMatchData;
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mStartPos;
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mTabletType;
-import static com.example.android.thepeachalliance2020.Managers.InputManager.isNoShow;
-
 
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.tb_auto_move;
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.btn_startTimer;
@@ -73,12 +73,8 @@ public class MapActivity extends DialogMaker {
     public boolean modeIsIntake = true;
     public static boolean startTimer = true;
     public boolean tele = false;
-    public boolean startedWObject = false;
-    public boolean climbInputted = false;
     public static boolean timerCheck = false;
     public boolean pw = true;
-    public boolean isMapLeft = false;
-    public boolean dropClick = false;
     public boolean selectDialogOpen = false;
     public boolean shotDialogOpen = false;
     public boolean climbDialogOpen = false;
@@ -92,15 +88,8 @@ public class MapActivity extends DialogMaker {
     public Float time;
 
     public int actionCount;
-    public boolean didSucceed;
     public boolean wasDefended;
-    public boolean shotOutOfField;
     public boolean didUndoOnce = true;
-    public Integer climbAttemptCounter = 0;
-    public Integer climbActualCounter = 0;
-    public Integer level;
-    public Integer undoX;
-    public Integer undoY;
 
     public String shotType = "";
     public int x;
@@ -119,6 +108,27 @@ public class MapActivity extends DialogMaker {
     public static ToggleButton tb_incap;
     public static ToggleButton tb_defense;
     public static ToggleButton tb_wasDefended;
+
+    public static RadioButton made0;
+    public static RadioButton made1;
+    public static RadioButton made2;
+    public static RadioButton made3;
+    public static RadioButton made4;
+    public static RadioButton made5;
+    public static RadioButton made6;
+    public static RadioButton made7;
+    public static RadioButton miss0;
+    public static RadioButton miss1;
+    public static RadioButton miss2;
+    public static RadioButton miss3;
+    public static RadioButton miss4;
+    public static RadioButton miss5;
+    public static RadioButton miss6;
+    public static RadioButton miss7;
+    public static RadioGroup radioMiss;
+    public static RadioGroup radioMade;
+
+
 
     public static int shotSuccess;
     public static int shotFail;
@@ -201,7 +211,7 @@ public class MapActivity extends DialogMaker {
         iv_field = findViewById(R.id.imageView);
         btn_undo = findViewById(R.id.btn_undo);
         tb_incap = findViewById(R.id.tbtn_incap);
-        tb_defense = findViewById(R.id.tbtn_defence);
+        tb_defense = findViewById(R.id.tbtn_defense);
         btn_foul = findViewById(R.id.btn_foul);
         btn_climb = findViewById(R.id.btn_climb);
         btn_arrow = findViewById(R.id.btn_next);
@@ -310,7 +320,7 @@ public class MapActivity extends DialogMaker {
                     }
                     mRealTimeMatchData.remove(index);
                     InputManager.cyclesDefended--;
-                    btn_cyclesDefended.setText("FAILED PLACEMENTS/DROPS CAUSED - " + InputManager.cyclesDefended);
+                    btn_cyclesDefended.setText("FAILED SHOTS/DROPS CAUSED - " + InputManager.cyclesDefended);
                 }
                 return true;
             }
@@ -497,6 +507,7 @@ public class MapActivity extends DialogMaker {
                         //Set coordinates of map based on tablet type
                             if (!(x > 1130 || y > 580)) {
                                 pw = true;
+                                time = TimerUtil.timestamp;
                                 initSelect();
                                 //initPlacement();
                                 modeIsIntake = false;
@@ -609,9 +620,9 @@ public class MapActivity extends DialogMaker {
             actionCount = actionCount - 1;
 
             if (actionDic.get(actionCount).get(3).equals("high")) {
-                //hmm
+                overallLayout.removeView(iv_game_element);
             } else if (actionDic.get(actionCount).get(3).equals("low")) {
-                //hmm
+                overallLayout.removeView(iv_game_element);
             } else if (actionDic.get(actionCount).get(3).equals("drop")) {
                 btn_drop.setEnabled(true);
                 modeIsIntake = false;
@@ -672,7 +683,7 @@ public class MapActivity extends DialogMaker {
 
     //Method that changes intake status, game mode, and the previous game element
     public void undoGeneric(Boolean btndrop, Boolean intakeVal, String modeGeneric) {
-        btn_drop.setEnabled(btndrop);
+
         modeIsIntake = intakeVal;
         overallLayout.removeView(iv_game_element);
     }
@@ -687,7 +698,7 @@ public class MapActivity extends DialogMaker {
     }
 
     public void placePregame() {
-        initPregameShape();
+        initOnlyShape();
         pregamePlace = true;
     }
 
@@ -719,10 +730,27 @@ public class MapActivity extends DialogMaker {
         shotDialogLayout = (ConstraintLayout) this.getLayoutInflater().inflate(R.layout.map_popup_shot, null);
         tv_shotTitle = shotDialogLayout.findViewById(R.id.tv_shotTitle);
         tb_wasDefended = shotDialogLayout.findViewById(R.id.tb_defended);
+        miss0 = shotDialogLayout.findViewById(R.id.miss0);
+        miss1 = shotDialogLayout.findViewById(R.id.miss1);
+        miss2 = shotDialogLayout.findViewById(R.id.miss2);
+        miss3 = shotDialogLayout.findViewById(R.id.miss3);
+        miss4 = shotDialogLayout.findViewById(R.id.miss4);
+        miss5 = shotDialogLayout.findViewById(R.id.miss5);
+        miss6 = shotDialogLayout.findViewById(R.id.miss6);
+        miss7 = shotDialogLayout.findViewById(R.id.miss7);
+        made0 = shotDialogLayout.findViewById(R.id.made0);
+        made1 = shotDialogLayout.findViewById(R.id.made1);
+        made2 = shotDialogLayout.findViewById(R.id.made2);
+        made3 = shotDialogLayout.findViewById(R.id.made3);
+        made4 = shotDialogLayout.findViewById(R.id.made4);
+        made5 = shotDialogLayout.findViewById(R.id.made5);
+        made6 = shotDialogLayout.findViewById(R.id.made6);
+        made7 = shotDialogLayout.findViewById(R.id.made7);
+        radioMade = shotDialogLayout.findViewById(R.id.radioMade);
+        radioMiss = shotDialogLayout.findViewById(R.id.radioMiss);
         tv_shotTitle.setText(shotType + " Shot");
         shotDialog.setContentView(shotDialogLayout);
         shotDialog.show();
-        time = TimerUtil.timestamp;
     }
 
     public void recordPlacement() {
@@ -735,6 +763,7 @@ public class MapActivity extends DialogMaker {
             compressionDic.put("y", y);
             compressionDic.put("success", shotSuccess);
             compressionDic.put("fail", shotFail);
+            compressionDic.put("defended", wasDefended);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -765,12 +794,90 @@ public class MapActivity extends DialogMaker {
         shotDialog.dismiss();
     }
 
+    public void onClickDrop(View view) {
+        selectDialogOpen = false;
+        placementDialog.dismiss();
+        initOnlyShape();
+        undoDicAdder(x, y, "drop");
+        compressionDic = new JSONObject();
+        try {
+            compressionDic.put("type", "drop");
+            timestamp(time);
+            compressionDic.put("x", x);
+            compressionDic.put("y", y);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mRealTimeMatchData.put(compressionDic);
+        Log.i("mRealTimeMatchDataVals?", mRealTimeMatchData.toString());
+    }
+
+    public void onClickPickup(View view) {
+        selectDialogOpen = false;
+        placementDialog.dismiss();
+        initOnlyShape();
+        undoDicAdder(x, y, "intake");
+        compressionDic = new JSONObject();
+        try {
+            compressionDic.put("type", "intake");
+            timestamp(time);
+            compressionDic.put("x", x);
+            compressionDic.put("y", y);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mRealTimeMatchData.put(compressionDic);
+        Log.i("mRealTimeMatchDataVals?", mRealTimeMatchData.toString());
+
+    }
+
+
     public void onClickDone(View view) {
-        initShape();
-        recordPlacement();
-        pw = true;
-        shotDialogOpen = false;
-        shotDialog.dismiss();
+        if((radioMiss.getCheckedRadioButtonId() == -1) || (radioMade.getCheckedRadioButtonId() == -1)) {
+            Toast.makeText(getBaseContext(), "Make Sure You Filled Out All Of The Information!",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            if (miss0.isChecked()) {
+                shotFail = 0;
+            } else if (miss1.isChecked()) {
+                shotFail = 1;
+            } else if (miss2.isChecked()) {
+                shotFail = 2;
+            } else if (miss3.isChecked()) {
+                shotFail = 3;
+            } else if (miss4.isChecked()) {
+                shotFail = 4;
+            } else if (miss5.isChecked()) {
+                shotFail = 5;
+            } else if (miss6.isChecked()) {
+                shotFail = 6;
+            } else if (miss7.isChecked()) {
+                shotFail = 7;
+            }
+
+            if (made0.isChecked()) {
+                shotSuccess = 0;
+            } else if (made1.isChecked()) {
+                shotSuccess = 1;
+            } else if (made2.isChecked()) {
+                shotSuccess = 2;
+            }else if (made3.isChecked()) {
+                shotSuccess = 3;
+            }else if (made4.isChecked()) {
+                shotSuccess = 4;
+            }else if (made5.isChecked()) {
+                shotSuccess = 5;
+            }else if (made6.isChecked()) {
+                shotSuccess = 6;
+            }else if (made7.isChecked()) {
+                shotSuccess = 7;
+            }
+            initShape();
+            recordPlacement();
+            pw = true;
+            shotDialogOpen = false;
+            shotDialog.dismiss();
+        }
     }
 
     public void initShape() {
@@ -791,7 +898,7 @@ public class MapActivity extends DialogMaker {
         //mapChange();
     }
 
-    public void initPregameShape() {
+    public void initOnlyShape() {
         pw = true;
         overallLayout.removeView(iv_game_element);
 
@@ -894,7 +1001,7 @@ public class MapActivity extends DialogMaker {
         btn_climb = (Button) findViewById(R.id.btn_climb);
         if (tb_defense.isChecked()) {
             dismissPopups();
-            pw = true;
+            pw = false;
             btn_climb.setEnabled(false);
 
             //Show Cycles Defended tracker in UI.
