@@ -1,5 +1,6 @@
 package com.example.android.thepeachalliance2020;
 
+import android.Manifest;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -29,54 +30,74 @@ public class MainActivity extends DialogMaker {
     public static TextView tv_versionNumber, tv_teamNumber;
     public static Spinner sp_triggerScoutNamePopup, sp_triggerTabletIDPopup;
 
+    int PERMISSION_ALL = 1;
+    String[] PERMISSIONS = {
+            android.Manifest.permission.READ_EXTERNAL_STORAGE,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 // Permission has already been granted
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-
-        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(getBaseContext(), "Go TO SETTINGS and add permissions", Toast.LENGTH_LONG).show();
-            // Permission is not granted
-            // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
-                // Show an explanation to the user *asynchronously* -- don't block
-                // this thread waiting for the user's response! After the user
-                // sees the explanation, try again to request the permission.
-            } else {
-                // No explanation needed; request the permission
-                int test = 0;
-                ActivityCompat.requestPermissions(this,
-                        new String[]{ android.Manifest.permission.READ_EXTERNAL_STORAGE}, test);
-
-                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                // app-defined int constant. The callback method gets the
-                // result of the request.
-
-                //Set Scout ID from stored data
-                //InputManager.mScoutId = AppCc.getSp("scoutId", 0);
-                InputManager.getScoutNames();
-                initViews();
-                initPopups();
-                initListeners();
-
-                //InputManager.recoverUserData();
-                updateUserData();
-            }
-        } else {
-            //Set Scout ID from stored data
-            //InputManager.mScoutId = AppCc.getSp("scoutId", 0);
-            InputManager.getScoutNames();
-            initViews();
-            initPopups();
-            initListeners();
-
-            //InputManager.recoverUserData();
-            updateUserData();
+        if (!hasPermissions(PERMISSIONS)) {
+            ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
         }
+        initAll();
+    }
+
+    public boolean hasPermissions(String... permissions) {
+        if (permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+//    private void requestPermits() {
+//        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
+//                != PackageManager.PERMISSION_GRANTED) {
+//            Toast.makeText(getBaseContext(), "Go TO SETTINGS and add permissions", Toast.LENGTH_LONG).show();
+//            // Permission is not granted
+//            // Should we show an explanation?
+//            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+//                    android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
+//                // Show an explanation to the user *asynchronously* -- don't block
+//                // this thread waiting for the user's response! After the user
+//                // sees the explanation, try again to request the permission.
+//            } else {
+//                // No explanation needed; request the permission
+//                int test = 0;
+//                ActivityCompat.requestPermissions(this,
+//                        new String[]{ android.Manifest.permission.READ_EXTERNAL_STORAGE}, test);
+//
+//                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+//                // app-defined int constant. The callback method gets the
+//                // result of the request.
+//
+//               initAll();
+//            }
+//
+//        } else {
+//            initAll();
+//        }
+//    }
+
+    private void initAll(){
+        //Set Scout ID from stored data
+        //InputManager.mScoutId = AppCc.getSp("scoutId", 0);
+        InputManager.getTabletType();
+        InputManager.getScoutNames();
+        initViews();
+        initPopups();
+        initListeners();
+        //InputManager.recoverUserData();
+        updateUserData();
     }
 
     //Set all UI text values

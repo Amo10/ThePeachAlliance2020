@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
@@ -122,7 +123,8 @@ public class QRDisplayActivity extends DialogMaker {
     //Saves scout data as text file in tablet internal storage
     public void writeFileOnInternalStorage(String sFileName, String sBody) {
         //File file = new File(android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/scout_data");
-        File file = new File(getApplicationContext().getFilesDir()+"/scout/matches");
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/scout/matches");        //String filePath = Environment.getExternalStorageDirectory().toString() + "/scout";
+
         if (!file.exists()) {
             file.mkdir();
         }

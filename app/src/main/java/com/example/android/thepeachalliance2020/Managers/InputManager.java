@@ -187,6 +187,23 @@ public class InputManager {
 
     }
 
+
+    public static void getTabletType() {
+        String filePath = Environment.getExternalStorageDirectory().toString() + "/scout";
+        String fileName = "Setup.txt";
+        File f = new File(filePath, fileName);
+
+        //Retrieve names from text file in internal storage
+        if (f.exists()) {
+            try {
+                JSONObject data = new JSONObject(AppUtils.retrieveSDCardFile("Setup.txt"));
+                mTabletType = data.getString("device");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     //Generate match key with specific match information
     public static void initMatchKey() {
         matchKey = mTeamNum + "-" + "Q" + mMatchNum + "-" + mScoutid;

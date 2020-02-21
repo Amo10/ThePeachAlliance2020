@@ -507,7 +507,7 @@ public class MapActivity extends DialogMaker {
                         Log.e("Ycoordinate", String.valueOf(y));
 
                         //Set coordinates of map based on tablet type
-                            if (!(x > 1130 || y > 580)) {
+                            if ((!(x > 1130 || y > 580) && InputManager.mTabletType.equals("fire"))||(!(x > 840 || y > 440) && InputManager.mTabletType.equals("RCA"))) {
                                 pw = true;
                                 time = TimerUtil.timestamp;
                                 initSelect();
@@ -522,9 +522,9 @@ public class MapActivity extends DialogMaker {
                         Log.e("Ycoordinate", String.valueOf(y));
 
                         //Set coordinates of map based on tablet type
-                        if (!(x > 1130 || y > 580 || x < 225) && InputManager.mAllianceColor.equals("red")) {
+                        if (((!(x > 900 || y > 580) && InputManager.mTabletType.equals("fire")) || (!(x > 675 || y > 580) && InputManager.mTabletType.equals("RCA"))) && InputManager.mAllianceColor.equals("red")) {
                             placePregame();
-                        } else if (!(x > 915 || y > 580) && InputManager.mAllianceColor.equals("blue")) {
+                        } else if (((!(x > 1130 || y > 580 || x < 230) && InputManager.mTabletType.equals("fire")) || (!(x > 840 || y > 440 || x < 175) && InputManager.mTabletType.equals("RCA"))) && InputManager.mAllianceColor.equals("blue")) {
                             placePregame();
                         }
                     }
@@ -888,12 +888,14 @@ public class MapActivity extends DialogMaker {
 
         iv_game_element.setImageDrawable(getResources().getDrawable(R.drawable.map_indicator_cargo));
         undoDicAdder(x, y, shotType);
-
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                100,
-                100);
-
-        lp.setMargins(x - 50, y - 50, 0, 0);
+        RelativeLayout.LayoutParams lp;
+        if(mTabletType.equals("fire")){
+        lp = new RelativeLayout.LayoutParams(70, 70);
+        lp.setMargins(x - 35, y - 35, 0, 0);
+        } else {
+            lp = new RelativeLayout.LayoutParams(54, 54);
+            lp.setMargins(x - 27, y - 27, 0, 0);
+        }
         iv_game_element.setLayoutParams(lp);
         ((ViewGroup) overallLayout).addView(iv_game_element);
 
@@ -906,11 +908,15 @@ public class MapActivity extends DialogMaker {
 
         iv_game_element.setImageDrawable(getResources().getDrawable(R.drawable.map_indicator_cargo));
 
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                100,
-                100);
+        RelativeLayout.LayoutParams lp;
+        if(mTabletType.equals("fire")){
+            lp = new RelativeLayout.LayoutParams(70, 70);
+            lp.setMargins(x - 35, y - 35, 0, 0);
+        } else {
+            lp = new RelativeLayout.LayoutParams(54, 54);
+            lp.setMargins(x - 27, y - 27, 0, 0);
+        }
 
-        lp.setMargins(x - 50, y - 50, 0, 0);
         iv_game_element.setLayoutParams(lp);
         ((ViewGroup) overallLayout).addView(iv_game_element);
 
