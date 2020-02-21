@@ -31,7 +31,8 @@ import com.example.android.thepeachalliance2020.Managers.InputManager;
 
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mPreload;
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mRealTimeMatchData;
-import static com.example.android.thepeachalliance2020.Managers.InputManager.mStartPos;
+import static com.example.android.thepeachalliance2020.Managers.InputManager.mStartPosX;
+import static com.example.android.thepeachalliance2020.Managers.InputManager.mStartPosY;
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mTabletType;
 
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.tb_auto_move;
@@ -62,7 +63,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 public class MapActivity extends DialogMaker {
 
@@ -99,34 +99,34 @@ public class MapActivity extends DialogMaker {
     public ConstraintLayout shotDialogLayout;
     public ConstraintLayout climbDialogLayout;
 
-    public static Button btn_drop;
-    public static Button btn_foul;
-    public static Button btn_cyclesDefended;
-    public static Button btn_undo;
-    public static Button btn_climb;
+    public Button btn_drop;
+    public Button btn_foul;
+    public Button btn_cyclesDefended;
+    public Button btn_undo;
+    public Button btn_climb;
 
-    public static ToggleButton tb_incap;
-    public static ToggleButton tb_defense;
-    public static ToggleButton tb_wasDefended;
+    public ToggleButton tb_incap;
+    public ToggleButton tb_defense;
+    public ToggleButton tb_wasDefended;
 
-    public static RadioButton made0;
-    public static RadioButton made1;
-    public static RadioButton made2;
-    public static RadioButton made3;
-    public static RadioButton made4;
-    public static RadioButton made5;
-    public static RadioButton made6;
-    public static RadioButton made7;
-    public static RadioButton miss0;
-    public static RadioButton miss1;
-    public static RadioButton miss2;
-    public static RadioButton miss3;
-    public static RadioButton miss4;
-    public static RadioButton miss5;
-    public static RadioButton miss6;
-    public static RadioButton miss7;
-    public static RadioGroup radioMiss;
-    public static RadioGroup radioMade;
+    public RadioButton made0;
+    public RadioButton made1;
+    public RadioButton made2;
+    public RadioButton made3;
+    public RadioButton made4;
+    public RadioButton made5;
+    public RadioButton made6;
+    public RadioButton made7;
+    public RadioButton miss0;
+    public RadioButton miss1;
+    public RadioButton miss2;
+    public RadioButton miss3;
+    public RadioButton miss4;
+    public RadioButton miss5;
+    public RadioButton miss6;
+    public RadioButton miss7;
+    public RadioGroup radioMiss;
+    public RadioGroup radioMade;
 
 
 
@@ -359,7 +359,8 @@ public class MapActivity extends DialogMaker {
             isPregame = false;
 
             // add values selected
-            mStartPos = "[" + x + "," + y + "]";
+            mStartPosX = x;
+            mStartPosY = y;
             if (r_load0.isChecked()) {
                 mPreload = 0;
             } else if (r_load1.isChecked()) {

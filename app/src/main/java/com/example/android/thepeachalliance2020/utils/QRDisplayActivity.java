@@ -48,16 +48,16 @@ public class QRDisplayActivity extends DialogMaker {
 
         tQRView = findViewById(R.id.QRCode_Display);
         //Resets data inputted and fills with match information
-        InputManager.mRealTimeInputtedData = new JSONObject();
+        InputManager.mFinalJSON = InputManager.mOneTimeMatchData;
         try {
-            InputManager.mRealTimeInputtedData.put(InputManager.matchKey, (InputManager.mRealTimeMatchData));
+            InputManager.mFinalJSON.put("actions", (InputManager.mRealTimeMatchData));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         Log.e("Match DATA before COMP", InputManager.mRealTimeMatchData.toString());
-        Log.e("Input DATA before COMP", InputManager.mRealTimeInputtedData.toString());
+        Log.e("Input DATA before COMP", InputManager.mFinalJSON.toString());
 
-        String qrScoutData = OutputManager.compressMatchData(InputManager.mRealTimeInputtedData);
+        String qrScoutData = OutputManager.compressMatchDataNew(InputManager.mFinalJSON);
         showMatchQR(qrScoutData);
         Log.e("Output DATA after COMP", qrScoutData);
 

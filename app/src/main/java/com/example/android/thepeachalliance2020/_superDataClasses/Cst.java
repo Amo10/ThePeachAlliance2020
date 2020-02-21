@@ -51,7 +51,8 @@ public interface Cst {
         put("side", "y");
         put("shotOutOfField", "H");
         put("level", "z");
-
+        put("startDefense", "A");
+        put("endDefense", "G");
 
         put("attempted", "B");
         put("actual", "C");

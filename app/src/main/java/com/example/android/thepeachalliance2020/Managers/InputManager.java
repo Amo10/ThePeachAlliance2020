@@ -22,11 +22,12 @@ import android.content.pm.PackageManager;
 public class InputManager {
     //Match Data Holders
     //Below holds match data
-    public static JSONArray mRealTimeMatchData = new JSONArray();
+    public static JSONArray mRealTimeMatchData;
     //keys that only appear once in data
     public static JSONObject mOneTimeMatchData;
     //Below is finaldata to be inputted to QR
-    public static JSONObject mRealTimeInputtedData;
+    public static JSONObject mFinalJSON;
+
 
     //Main Inputs
 
@@ -35,12 +36,14 @@ public class InputManager {
     public static String mScoutName = "unselected";
     public static String mTabletID = "";
     public static String mTabletType = "fire";
+    public static int mScoutid = 0;
     public static int mMatchNum = 1;
     public static int mTeamNum = 0;
     public static int numFoul = 0;
     public static Boolean isNoShow = true;
     public static String mScoutLetter = "A";
-    public static String mStartPos = "";
+    public static int mStartPosX = 0;
+    public static int mStartPosY = 0;
     public static int mPreload = 0;
     public static int mTimerStarted = 0;
 
@@ -186,7 +189,7 @@ public class InputManager {
 
     //Generate match key with specific match information
     public static void initMatchKey() {
-        matchKey = mTeamNum + "Q" + mMatchNum + "-" + mScoutName;
+        matchKey = mTeamNum + "Q" + "-" + mMatchNum + "-" + mScoutid;
     }
 
 }

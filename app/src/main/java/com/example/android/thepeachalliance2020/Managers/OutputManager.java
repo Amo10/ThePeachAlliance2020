@@ -63,5 +63,9 @@ public class OutputManager {
         }
         return compressedData;
     }
+
+    public static String compressMatchDataNew(JSONObject pMatchData) {
+        return pMatchData.toString();
+    }
 }
 
