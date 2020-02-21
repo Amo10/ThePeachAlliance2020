@@ -2,7 +2,6 @@ package com.example.android.thepeachalliance2020.Managers;
 
 import android.os.Environment;
 import android.util.Log;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -15,9 +14,6 @@ import java.util.Collections;
 import com.example.android.thepeachalliance2020.utils.AppUtils;
 import com.example.android.thepeachalliance2020._superDataClasses.Match;
 import com.example.android.thepeachalliance2020._superDataClasses.Cst;
-
-import androidx.core.content.ContextCompat;
-import android.content.pm.PackageManager;
 
 public class InputManager {
     //Match Data Holders
@@ -46,6 +42,7 @@ public class InputManager {
     public static int mStartPosY = 0;
     public static int mPreload = 0;
     public static int mTimerStarted = 0;
+    public static int mTeleopTime = 0;
 
     public static Boolean mAutoMove = null;
     public static int cyclesDefended = 0;
@@ -189,7 +186,7 @@ public class InputManager {
 
     //Generate match key with specific match information
     public static void initMatchKey() {
-        matchKey = mTeamNum + "Q" + "-" + mMatchNum + "-" + mScoutid;
+        matchKey = mTeamNum + "-" + "Q" + mMatchNum + "-" + mScoutid;
     }
 
 }

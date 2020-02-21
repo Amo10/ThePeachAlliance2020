@@ -50,6 +50,7 @@ import static com.example.android.thepeachalliance2020.utils.PregameDialog.r_loa
 import static java.lang.String.valueOf;
 
 
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -206,6 +207,7 @@ public class MapActivity extends DialogMaker {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         setContentView(R.layout.activity_map);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         iv_field = findViewById(R.id.imageView);
@@ -379,7 +381,7 @@ public class MapActivity extends DialogMaker {
             if (fragment != null)
                 getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
-
+       InputManager.mTeleopTime = (int)Math.floor(TimerUtil.timestamp*10);
         dismissPopups();
         //Allows scout to touch screen if a popup used to be open
         if (isPopupOpen && !tb_incap.isChecked()) {
@@ -389,6 +391,7 @@ public class MapActivity extends DialogMaker {
 
         btn_undo.setEnabled(false);
         tb_auto_move.setEnabled(false);
+
 
 
         //If the timer is on and incap isn't checked, make buttons clickable
@@ -1074,19 +1077,24 @@ public class MapActivity extends DialogMaker {
 
     //Add timestamp to objects in mRealTimeMatchData
     public void timestamp(Float givenTime) {
-        if ((givenTime <= 135 && !tele) || (givenTime > 135 && tele)) {
-            try {
-                compressionDic.put("time", String.format("%.1f", givenTime) + "*");
+//        if ((givenTime <= 135 && !tele) || (givenTime > 135 && tele)) {
+//            try {
+//                compressionDic.put("time", String.format("%.1f", givenTime) + "*");
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        } else {
+//            try {
+//                compressionDic.put("time", String.format("%.1f", givenTime));
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        try {
+                compressionDic.put("time", Math.floor(givenTime*10));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        } else {
-            try {
-                compressionDic.put("time", String.format("%.1f", givenTime));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     public void undoDicAdder(Object xCoordinate, Object yCoordinate, String type) {

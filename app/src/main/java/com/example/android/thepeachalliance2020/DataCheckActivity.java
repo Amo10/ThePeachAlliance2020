@@ -79,6 +79,7 @@ public class DataCheckActivity extends DialogMaker {
                 InputManager.mOneTimeMatchData.put("preload", InputManager.mPreload);
                 InputManager.mOneTimeMatchData.put("isNoShow", InputManager.isNoShow);
                 InputManager.mOneTimeMatchData.put("autoMove", InputManager.mAutoMove);
+                InputManager.mOneTimeMatchData.put("teleopTime", InputManager.mTeleopTime);
                 InputManager.mOneTimeMatchData.put("appVersion", InputManager.mAppVersion);
                 //InputManager.mOneTimeMatchData.put("timerStarted", InputManager.mTimerStarted);
             } catch (JSONException e) {
