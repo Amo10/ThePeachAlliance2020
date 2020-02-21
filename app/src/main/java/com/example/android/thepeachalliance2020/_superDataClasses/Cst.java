@@ -30,8 +30,10 @@ public interface Cst {
         put("startingLocation", "a");
         put("preload", "b");
         put("isNoShow", "c");
-        put("scoutID", "d");
-        put("appVersion", "e");
+        put("autoMove", "d");
+        put("scoutID", "e");
+        put("appVersion", "f");
+        put("timerStarted", "g");
     }};
     //Compresses specific keys as letters
     Map<String, String> compressKeys = new HashMap<String, String>() {{
@@ -62,8 +64,8 @@ public interface Cst {
     Map<String, String> compressValues = new HashMap<String, String>() {{
         put("true", "T");
         put("false", "F");
-        put("left", "A");
-        put("mid", "B");
+        put("high", "A");
+        put("low", "B");
         put("right", "C");
         put("far", "D");
         put("cargo", "E");
@@ -79,16 +81,6 @@ public interface Cst {
         put("climb", "R");
         put("incap", "S");
         put("unincap", "U");
-        put("startDefense", "t");
-        put("endDefense", "u");
-        put("zone1Left", "V");
-        put("zone1Right", "W");
-        put("zone2Left", "X");
-        put("zone2Right", "Y");
-        put("zone3Left", "Z");
-        put("zone3Right", "a");
-        put("zone4Left", "b");
-        put("zone4Right", "c");
         put("leftLoadingStation", "d");
         put("rightLoadingStation", "e");
         put("leftRocket", "f");

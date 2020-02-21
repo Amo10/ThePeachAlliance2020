@@ -36,7 +36,7 @@ import static com.example.android.thepeachalliance2020.Managers.InputManager.isN
 
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.tb_auto_move;
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.btn_startTimer;
-import static com.example.android.thepeachalliance2020.utils.AutoDialog.teleButton;
+import static com.example.android.thepeachalliance2020.utils.AutoDialog.btn_teleop;
 
 import static com.example.android.thepeachalliance2020.utils.PregameDialog.btn_to_auto;
 import static com.example.android.thepeachalliance2020.utils.PregameDialog.tb_noshow;
@@ -87,6 +87,10 @@ public class MapActivity extends DialogMaker {
 
     public boolean isPopupOpen = false;
 
+    public String element = "";
+
+    public Float time;
+
     public int actionCount;
     public boolean didSucceed;
     public boolean wasDefended;
@@ -114,6 +118,10 @@ public class MapActivity extends DialogMaker {
 
     public static ToggleButton tb_incap;
     public static ToggleButton tb_defense;
+    public static ToggleButton tb_wasDefended;
+
+    public static int shotSuccess;
+    public static int shotFail;
 
     public TextView tv_team;
     public Button btn_arrow;
@@ -166,7 +174,7 @@ public class MapActivity extends DialogMaker {
                                 toTeleop();
                             }
                         })
-                        .setNegativeButton("STAY IN SANDSTORM", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("STAY IN AUTO", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // do nothing
                             }
@@ -238,6 +246,7 @@ public class MapActivity extends DialogMaker {
             TimerUtil.matchTimer = null;
             TimerUtil.timestamp = 0f;
             TimerUtil.mTimerView.setText("15");
+            timerCheck = false;
             startTimer = true;
             pw = false;
         }
@@ -248,6 +257,7 @@ public class MapActivity extends DialogMaker {
         InputManager.mOneTimeMatchData = new JSONObject();
         InputManager.numFoul = 0;
         InputManager.cyclesDefended = 0;
+        isPregame = true;
 
         btn_drop.setEnabled(false);
         btn_undo.setEnabled(false);
@@ -367,6 +377,8 @@ public class MapActivity extends DialogMaker {
         tele = true;
 
         btn_undo.setEnabled(false);
+        tb_auto_move.setEnabled(false);
+
 
         //If the timer is on and incap isn't checked, make buttons clickable
 
@@ -411,10 +423,11 @@ public class MapActivity extends DialogMaker {
             timerCheck = true;
             startTimer = false;
             btn_undo.setEnabled(false);
-            teleButton.setEnabled(true);
+            btn_teleop.setEnabled(true);
             tb_auto_move.setEnabled(true);
             tb_incap.setEnabled(true);
             btn_foul.setEnabled(true);
+            InputManager.mTimerStarted = (int) (System.currentTimeMillis() / 1000);
             /*
             InputManager.mTimerStarted = (int) (System.currentTimeMillis() / 1000);
             if (InputManager.mAllianceColor.equals("red")) {
@@ -435,7 +448,7 @@ public class MapActivity extends DialogMaker {
             //btn_climb.setEnabled(false);
             tb_auto_move.setEnabled(false);
             tb_auto_move.setChecked(false);
-            teleButton.setEnabled(false);
+            btn_teleop.setEnabled(false);
             btn_undo.setEnabled(false);
             btn_drop.setEnabled(false);
             //actionDic.clear();
@@ -508,6 +521,162 @@ public class MapActivity extends DialogMaker {
         });
     }
 
+    public void onClickIncap(View v) {
+
+        //If incap is checked, disable buttons
+        if (tb_incap.isChecked()) {
+            dismissPopups();
+
+            btn_climb.setEnabled(false);
+            btn_drop.setEnabled(false);
+            btn_foul.setEnabled(false);
+            tb_defense.setEnabled(false);
+
+            if (!tele) {
+                tb_auto_move.setEnabled(false);
+            }
+
+            pw = false;
+
+            compressionDic = new JSONObject();
+
+            try {
+                compressionDic.put("type", "incap");
+                timestamp(TimerUtil.timestamp);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mRealTimeMatchData.put(compressionDic);
+
+            undoDicAdder("NA", "NA", "incap");
+
+        }
+
+        //If incap isn't checked, re-enable buttons
+        else if (!tb_incap.isChecked()) {
+            undoDicAdder("NA", "NA", "unincap");
+            pw = true;
+
+            btn_foul.setEnabled(true);
+
+            if (!tele) {
+                tb_auto_move.setEnabled(true);
+            } else {
+                if (!tb_defense.isChecked()) {
+                    btn_climb.setEnabled(true);
+                }
+                tb_defense.setEnabled(true);
+            }
+
+            compressionDic = new JSONObject();
+
+            try {
+                compressionDic.put("type", "unincap");
+                timestamp(TimerUtil.timestamp);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            mRealTimeMatchData.put(compressionDic);
+
+        }
+        //mapChange();
+        Log.i("mRealTimeMatchDataVal", mRealTimeMatchData.toString());
+    }
+
+    public void onClickUndo(View v) {
+        dismissPopups();
+        pw = true;
+        int index = -1;
+        for (int i = 0; i < mRealTimeMatchData.length(); i++) {
+            try {
+                String hf = mRealTimeMatchData.getString(i);
+                if (hf.contains("intake") || hf.contains("high") || hf.contains("low") || hf.contains("drop") || hf.contains("incap") || hf.contains("unincap") || hf.contains("startDefense") || hf.contains("endDefense")) {
+                    index = i;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        Log.e("indexVals", String.valueOf(index));
+        Log.e("mRealTimeMatchDataVals", mRealTimeMatchData.toString());
+
+        //Remove previous object from mRealTimeMatchData
+        mRealTimeMatchData.remove(index);
+        if (actionCount > 0) {
+            actionCount = actionCount - 1;
+
+            if (actionDic.get(actionCount).get(3).equals("high")) {
+                //hmm
+            } else if (actionDic.get(actionCount).get(3).equals("low")) {
+                //hmm
+            } else if (actionDic.get(actionCount).get(3).equals("drop")) {
+                btn_drop.setEnabled(true);
+                modeIsIntake = false;
+                //mode = "placement";
+            } else if (actionDic.get(actionCount).get(3).equals("incap")) {
+                pw = true;
+                if (!tele) {
+                    tb_defense.setEnabled(false);
+                    tb_auto_move.setEnabled(true);
+                    btn_climb.setEnabled(false);
+                } else if (tele) {
+                    tb_defense.setEnabled(true);
+                    tb_defense.bringToFront();
+                    if (!tb_defense.isChecked()) {
+                        btn_foul.setEnabled(true);
+                        btn_climb.setEnabled(true);
+                    }
+                }
+                tb_incap.setChecked(false);
+            } else if (actionDic.get(actionCount).get(3).equals("unincap")) {
+                btn_climb.setEnabled(false);
+                btn_drop.setEnabled(false);
+                btn_foul.setEnabled(false);
+                tb_defense.setEnabled(false);
+                tb_incap.setChecked(true);
+
+                pw = false;
+
+            } else if (actionDic.get(actionCount).get(3).equals("defense")) {
+                btn_climb.setEnabled(true);
+                pw = true;
+                tb_defense.setChecked(false);
+
+                //Remove Cycles Defended tracker from UI.
+                btn_cyclesDefended.setEnabled(false);
+                btn_cyclesDefended.setVisibility(View.INVISIBLE);
+
+            } else if (actionDic.get(actionCount).get(3).equals("undefense")) {
+                dismissPopups();
+                pw = true;
+                btn_climb.setEnabled(false);
+                tb_defense.setChecked(true);
+
+                //Show Cycles Defended tracker in UI and keep previous Cycles Defended.
+                btn_cyclesDefended.setEnabled(true);
+                btn_cyclesDefended.setVisibility(View.VISIBLE);
+                btn_cyclesDefended.bringToFront();
+            }
+            actionDic.remove(actionCount);
+            //mapChange();
+        } else if (actionCount == 0) {
+            actionDic.remove(actionCount);
+            //preload();
+        }
+        btn_undo.setEnabled(false);
+        didUndoOnce = true;
+    }
+
+    //Method that changes intake status, game mode, and the previous game element
+    public void undoGeneric(Boolean btndrop, Boolean intakeVal, String modeGeneric) {
+        btn_drop.setEnabled(btndrop);
+        modeIsIntake = intakeVal;
+        overallLayout.removeView(iv_game_element);
+    }
+
     public void initSelect() {
         placementDialog = new Dialog(this);
         placementDialog.setCanceledOnTouchOutside(false);
@@ -529,14 +698,14 @@ public class MapActivity extends DialogMaker {
     }
 
     public void onClickHigh(View view) {
-        shotType = "High";
+        shotType = "high";
         selectDialogOpen = false;
         placementDialog.dismiss();
         initShot();
     }
 
     public void onClickLow(View view) {
-        shotType = "Low";
+        shotType = "low";
         selectDialogOpen = false;
         placementDialog.dismiss();
         initShot();
@@ -549,12 +718,33 @@ public class MapActivity extends DialogMaker {
         shotDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         shotDialogLayout = (ConstraintLayout) this.getLayoutInflater().inflate(R.layout.map_popup_shot, null);
         tv_shotTitle = shotDialogLayout.findViewById(R.id.tv_shotTitle);
+        tb_wasDefended = shotDialogLayout.findViewById(R.id.tb_defended);
         tv_shotTitle.setText(shotType + " Shot");
         shotDialog.setContentView(shotDialogLayout);
         shotDialog.show();
+        time = TimerUtil.timestamp;
     }
 
-    public void onClickClimb(View view){
+    public void recordPlacement() {
+        wasDefended = tb_wasDefended.isChecked();
+        compressionDic = new JSONObject();
+        try {
+            compressionDic.put("type", shotType);
+            timestamp(time);
+            compressionDic.put("x", x);
+            compressionDic.put("y", y);
+            compressionDic.put("success", shotSuccess);
+            compressionDic.put("fail", shotFail);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        mRealTimeMatchData.put(compressionDic);
+
+        Log.i("mRealTimeMatchDataVals?", mRealTimeMatchData.toString());
+    }
+
+        public void onClickClimb(View view){
         climbDialogOpen = true;
         initClimb();
     }
@@ -577,6 +767,10 @@ public class MapActivity extends DialogMaker {
 
     public void onClickDone(View view) {
         initShape();
+        recordPlacement();
+        pw = true;
+        shotDialogOpen = false;
+        shotDialog.dismiss();
     }
 
     public void initShape() {
@@ -584,7 +778,7 @@ public class MapActivity extends DialogMaker {
         overallLayout.removeView(iv_game_element);
 
         iv_game_element.setImageDrawable(getResources().getDrawable(R.drawable.map_indicator_cargo));
-        undoDicAdder(x, y, "cargo");
+        undoDicAdder(x, y, shotType);
 
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                 100,
@@ -791,7 +985,7 @@ public class MapActivity extends DialogMaker {
         actionList = new ArrayList<Object>();
         actionList.add(xCoordinate);
         actionList.add(yCoordinate);
-        //actionList.add(mode);
+        actionList.add("");
         actionList.add(type);
         actionList.add(TimerUtil.timestamp);
         actionDic.put(actionCount, actionList);

@@ -42,8 +42,9 @@ public class InputManager {
     public static String mScoutLetter = "A";
     public static String mStartPos = "";
     public static int mPreload = 0;
+    public static int mTimerStarted = 0;
 
-    public static Boolean mAutoMove = false;
+    public static Boolean mAutoMove = null;
     public static int cyclesDefended = 0;
 
     public static String mAppVersion = "1.0";
