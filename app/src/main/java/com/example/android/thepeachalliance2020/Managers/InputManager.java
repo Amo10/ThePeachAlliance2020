@@ -56,7 +56,7 @@ public class InputManager {
 
         String filePath = Environment.getExternalStorageDirectory().toString() + "/scout";
 
-        String fileName = "Scouts.txt";
+        String fileName = "Setup.txt";
 
         File f = new File(filePath, fileName);
 
@@ -66,13 +66,15 @@ public class InputManager {
         //Retrieve names from text file in internal storage
         if (f.exists()) {
             try {
-                JSONObject names = new JSONObject(AppUtils.retrieveSDCardFile("Scouts.txt"));
+                JSONObject names = new JSONObject(AppUtils.retrieveSDCardFile("Setup.txt"));
 
                 JSONArray namesArray = names.getJSONArray("names");
                 ArrayList<String> backupNames = new ArrayList<String>();
 
                 for (int i = 0; i < namesArray.length(); i++) {
-                    String finalNames = namesArray.getString(i);
+                    String finalNames = namesArray.getJSONObject(i).getString("name");
+                    String scoutid = namesArray.getJSONObject(i).getString("id");
+                    Cst.scoutids.put(finalNames, scoutid);
                     finalNamesList.add(finalNames);
                 }
 
@@ -114,27 +116,27 @@ public class InputManager {
         if(mMatchNum <= Cst.FINAL_MATCH) {
             switch (mTabletID) {
                 case "Red 1":
-                    mTeamNum = Cst.MATCH_LIST.get(mMatchNum).red1;
+                    mTeamNum = Cst.MATCH_LIST[mMatchNum].red1;
                     mAllianceColor = "red";
                     break;
                 case "Red 2":
-                    mTeamNum = Cst.MATCH_LIST.get(mMatchNum).red2;
+                    mTeamNum = Cst.MATCH_LIST[mMatchNum].red2;
                     mAllianceColor = "red";
                     break;
                 case "Red 3":
-                    mTeamNum = Cst.MATCH_LIST.get(mMatchNum).red3;
+                    mTeamNum = Cst.MATCH_LIST[mMatchNum].red3;
                     mAllianceColor = "red";
                     break;
                 case "Blue 1":
-                    mTeamNum = Cst.MATCH_LIST.get(mMatchNum).blue1;
+                    mTeamNum = Cst.MATCH_LIST[mMatchNum].blue1;
                     mAllianceColor = "blue";
                     break;
                 case "Blue 2":
-                    mTeamNum = Cst.MATCH_LIST.get(mMatchNum).blue2;
+                    mTeamNum = Cst.MATCH_LIST[mMatchNum].blue2;
                     mAllianceColor = "blue";
                     break;
                 case "Blue 3":
-                    mTeamNum = Cst.MATCH_LIST.get(mMatchNum).blue3;
+                    mTeamNum = Cst.MATCH_LIST[mMatchNum].blue3;
                     mAllianceColor = "blue";
                     break;
             }
@@ -143,45 +145,46 @@ public class InputManager {
         }
     }
 
-    public static ArrayList<Match> getMatchSchedule() {
+    public static Match[] getMatchSchedule() {
         ArrayList<String> finalNamesList = new ArrayList<String>();
 
         String filePath = Environment.getExternalStorageDirectory().toString() + "/scout";
 
-        String fileName = "Scouts.txt";
+        String fileName = "Setup.txt";
 
         File f = new File(filePath, fileName);
 
         Log.i("path", filePath);
         Log.i("doesFileExist", f.exists() + "");
 
-        ArrayList<Match> matches = new ArrayList<>();
+        //ArrayList<Match> matches = new ArrayList<>();
 
         //Retrieve names from text file in internal storage
         if (f.exists()) {
             try {
-                JSONObject data = new JSONObject(AppUtils.retrieveSDCardFile("Scouts.txt"));
+                JSONObject data = new JSONObject(AppUtils.retrieveSDCardFile("Setup.txt"));
 
                 JSONArray matchArray = data.getJSONArray("match_schedule");
-                matches.add(new Match());
+                Match[] matches = new Match[matchArray.length() + 1];// = ;// matchArray = new match[matchArray.length()];
                 for (int i = 0; i < matchArray.length(); i++) {
                     Match currMatch = new Match();
-                    currMatch.match = matchArray.getJSONObject(i).getString("Match");
+                    currMatch.match = matchArray.getJSONObject(i).getInt("Match");
                     currMatch.red1 = matchArray.getJSONObject(i).getInt("Red 1");
                     currMatch.red2 = matchArray.getJSONObject(i).getInt("Red 2");
                     currMatch.red3 = matchArray.getJSONObject(i).getInt("Red 3");
                     currMatch.blue1 = matchArray.getJSONObject(i).getInt("Blue 1");
                     currMatch.blue2 = matchArray.getJSONObject(i).getInt("Blue 2");
                     currMatch.blue3 = matchArray.getJSONObject(i).getInt("Blue 3");
-                    matches.add(currMatch);
+                    matches[matchArray.getJSONObject(i).getInt("Match")] = (currMatch);
                 }
+                return matches;
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
         }
-        return matches;
+        return null;
+
     }
 
     //Generate match key with specific match information

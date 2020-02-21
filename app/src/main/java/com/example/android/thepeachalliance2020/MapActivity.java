@@ -84,8 +84,6 @@ public class MapActivity extends DialogMaker {
 
     public boolean isPopupOpen = false;
 
-    public String element = "";
-
     public Float time;
 
     public int actionCount;
@@ -246,9 +244,9 @@ public class MapActivity extends DialogMaker {
         btn_foul.setEnabled(false);
         btn_undo.setEnabled(false);
 
-        if (InputManager.mAllianceColor.equals("red")) {
+        if (InputManager.mAllianceColor.equals("blue")) {
             transactionp.add(R.id.left_menu, fragmentp, "FRAGMENTPREGAME");
-        } else if (InputManager.mAllianceColor.equals("blue")) {
+        } else if (InputManager.mAllianceColor.equals("red")) {
             transactionp.add(R.id.right_menu, fragmentp, "FRAGMENTPREGAME");
         }
         transactionp.commit();
@@ -344,9 +342,9 @@ public class MapActivity extends DialogMaker {
             transactiona = fma.beginTransaction();
 
 
-            if (InputManager.mAllianceColor.equals("red")) {
+            if (InputManager.mAllianceColor.equals("blue")) {
                 transactiona.add(R.id.left_menu, fragmenta, "FRAGMENTAUTO");
-            } else if (InputManager.mAllianceColor.equals("blue")) {
+            } else if (InputManager.mAllianceColor.equals("red")) {
                 transactiona.add(R.id.right_menu, fragmenta, "FRAGMENTAUTO");
             }
             transactiona.commit();

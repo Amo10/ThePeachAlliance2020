@@ -53,6 +53,8 @@ public class DataCheckActivity extends DialogMaker {
         name_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long arg3) {
                 InputManager.mScoutName = name_spinner.getSelectedItem().toString();
+                InputManager.mScoutid = Integer.valueOf(Cst.scoutids.get(InputManager.mScoutName));
+
             }
 
             public void onNothingSelected(AdapterView<?> parent) {

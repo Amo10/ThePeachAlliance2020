@@ -13,12 +13,16 @@ public interface Cst {
 
     String SHARED_PREF = "scout_sp";
 
+    Map<String, String> scoutids = new HashMap<String, String>() {{
+
+    }};
+
     //Saves scout names into shared preferences
     List<String> SCOUT_NAMES = InputManager.getScoutNames();
 
-    List<Match> MATCH_LIST = InputManager.getMatchSchedule();
+    Match[] MATCH_LIST = InputManager.getMatchSchedule();
 
-    int FINAL_MATCH = MATCH_LIST.size() - 1;
+    int FINAL_MATCH = MATCH_LIST.length - 1;
 
     //Saves scout IDS as 1-18
     List<String> SCOUT_IDS = Arrays.asList("Red 1", "Red 2", "Red 3", "Blue 1", "Blue 2", "Blue 3");

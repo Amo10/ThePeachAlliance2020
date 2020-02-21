@@ -137,6 +137,7 @@ public class MainActivity extends DialogMaker {
         sp_triggerScoutNamePopup.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long arg3) {
                 InputManager.mScoutName = sp_triggerScoutNamePopup.getSelectedItem().toString();
+                InputManager.mScoutid = Integer.valueOf(Cst.scoutids.get(InputManager.mScoutName));
                 //AppCc.setSp("scoutName", InputManager.mScoutName);
                 updateUserData();
         }
