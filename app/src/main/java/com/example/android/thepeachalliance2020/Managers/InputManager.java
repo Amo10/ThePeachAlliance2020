@@ -146,8 +146,6 @@ public class InputManager {
     }
 
     public static Match[] getMatchSchedule() {
-        ArrayList<String> finalNamesList = new ArrayList<String>();
-
         String filePath = Environment.getExternalStorageDirectory().toString() + "/scout";
 
         String fileName = "Setup.txt";
