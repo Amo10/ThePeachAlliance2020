@@ -46,6 +46,8 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.Comparator;
 import java.util.Date;
@@ -77,6 +79,16 @@ public class MainActivity extends DialogMaker {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 // Permission has already been granted
+        InputManager.mClimbData = new JSONObject();
+        InputManager.climbTime = 0;
+        InputManager.climbX = 0;
+        InputManager.climbY = 0;
+        InputManager.climb1Attempt = false;
+        InputManager.climb1Actual = false;
+        InputManager.climb1Attempt = false;
+        InputManager.climb1Actual = false;
+        InputManager.climb1Attempt = false;
+        InputManager.climb1Actual = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);

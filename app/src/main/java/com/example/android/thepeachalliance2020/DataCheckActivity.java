@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import com.example.android.thepeachalliance2020.Managers.InputManager;
 import com.example.android.thepeachalliance2020._superDataClasses.Cst;
@@ -84,6 +85,24 @@ public class DataCheckActivity extends DialogMaker {
                 InputManager.mOneTimeMatchData.put("teleopTime", InputManager.mTeleopTime);
                 InputManager.mOneTimeMatchData.put("appVersion", InputManager.mAppVersion);
                 //InputManager.mOneTimeMatchData.put("timerStarted", InputManager.mTimerStarted);
+                InputManager.mClimbData.put("type", "climb");
+                InputManager.mClimbData.put("time", InputManager.climbTime);
+                InputManager.mClimbData.put("x", InputManager.climbX);
+                InputManager.mClimbData.put("y", InputManager.climbY);
+                JSONObject self = new JSONObject();
+                self.put("attempted", InputManager.climb1Attempt);
+                self.put("climb", InputManager.climb1Actual);
+                JSONObject bot1 = new JSONObject();
+                bot1.put("attempted", InputManager.climb1Attempt);
+                bot1.put("climb", InputManager.climb1Actual);
+                JSONObject bot2 = new JSONObject();
+                bot2.put("attempted", InputManager.climb1Attempt);
+                bot2.put("climb", InputManager.climb1Actual);
+                InputManager.mClimbData.put("self", self);
+                InputManager.mClimbData.put("bot1", bot1);
+                InputManager.mClimbData.put("bot2", bot2);
+                InputManager.mRealTimeMatchData.put(InputManager.mClimbData);
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }

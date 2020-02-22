@@ -429,8 +429,8 @@ public class MapActivity extends DialogMaker {
 
         if (startTimer) {
             pw = true;
-            handler.postDelayed(runnable, 15000); //Should be 150000
-            teleWarningHandler.postDelayed(teleWarningRunnable, 5000); //Should be 25000
+            handler.postDelayed(runnable, 150000); //Should be 150000
+            teleWarningHandler.postDelayed(teleWarningRunnable, 25000); //Should be 25000
             timerUtil.initTimer();
             btn_startTimer.setText("RESET TIMER");
             timerCheck = true;

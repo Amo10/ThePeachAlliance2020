@@ -23,11 +23,13 @@ public class InputManager {
     public static JSONObject mOneTimeMatchData;
     //Below is finaldata to be inputted to QR
     public static JSONObject mFinalJSON;
+    public static JSONObject mClimbData;
+
 
 
     //Main Inputs
 
-    public static String matchKey = "1678Q3-13";
+    public static String matchKey = "1678-Q0-0";
     public static String mAllianceColor = "";
     public static String mScoutName = "unselected";
     public static String mTabletID = "";
@@ -61,7 +63,7 @@ public class InputManager {
     public static Boolean mAutoMove = null;
     public static int cyclesDefended = 0;
 
-    public static String mAppVersion = "1.0";
+    public static String mAppVersion = "1.1";
     public static String mDatabaseURL;
 
     //Populate Scout List
