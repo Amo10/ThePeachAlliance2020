@@ -87,6 +87,8 @@ public class DataCheckActivity extends DialogMaker {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
+            InputManager.mScoutNameSave = InputManager.mScoutName;
+            InputManager.mTabletIDSave = InputManager.mTabletID;
             open(QRDisplayActivity.class, null, false, false);
         }
     }

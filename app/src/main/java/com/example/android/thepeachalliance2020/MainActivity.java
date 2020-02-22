@@ -130,6 +130,12 @@ public class MainActivity extends DialogMaker {
     private void initAll(){
         //Set Scout ID from stored data
         //InputManager.mScoutId = AppCc.getSp("scoutId", 0);
+        if(!InputManager.mTabletIDSave.equals("unselected")){
+            InputManager.mTabletID = InputManager.mTabletIDSave;
+        }
+        if(!InputManager.mScoutNameSave.equals("unselected")){
+            InputManager.mScoutName = InputManager.mScoutNameSave;
+        }
         InputManager.getTabletType();
         InputManager.getScoutNames();
         initViews();
@@ -146,8 +152,8 @@ public class MainActivity extends DialogMaker {
         tv_versionNumber.setText(String.valueOf("Version: " + InputManager.mAppVersion));
         tv_teamNumber.setText(String.valueOf(InputManager.mTeamNum));
         et_matchNum.setText(String.valueOf(InputManager.mMatchNum));
-
-
+        sp_triggerScoutNamePopup.setSelection(((ArrayAdapter<String>)sp_triggerScoutNamePopup.getAdapter()).getPosition(InputManager.mScoutName));
+        sp_triggerTabletIDPopup.setSelection(((ArrayAdapter<String>)sp_triggerTabletIDPopup.getAdapter()).getPosition(InputManager.mTabletID));
     }
 
 

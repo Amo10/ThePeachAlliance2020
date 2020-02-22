@@ -43,6 +43,9 @@ public class InputManager {
     public static int mPreload = 0;
     public static int mTimerStarted = 0;
     public static int mTeleopTime = 0;
+    public static String mScoutNameSave = "unselected";
+    public static String mTabletIDSave = "unselected";
+
 
     public static Boolean mAutoMove = null;
     public static int cyclesDefended = 0;
