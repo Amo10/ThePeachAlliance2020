@@ -7,65 +7,77 @@
     android:layout_height="match_parent">
 
     <ToggleButton
-        android:id="@+id/toggleButton"
-        android:layout_width="60dp"
+        android:id="@+id/c2a"
+        android:layout_width="80dp"
         android:layout_height="75dp"
-        android:text="ToggleButton"
-        app:layout_constraintStart_toEndOf="@+id/toggleButton2"
-        app:layout_constraintTop_toTopOf="@+id/toggleButton2" />
+        android:textOff="NO"
+        android:textOn="CLIMB"
+        app:layout_constraintStart_toEndOf="@+id/c1a"
+        app:layout_constraintTop_toTopOf="@+id/c1a" />
 
     <ToggleButton
-        android:id="@+id/toggleButton2"
-        android:layout_width="60dp"
+        android:id="@+id/c1a"
+        android:layout_width="80dp"
         android:layout_height="75dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="ToggleButton"
+        android:textOff="NO"
+        android:textOn="CLIMB"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <ToggleButton
-        android:id="@+id/toggleButton4"
-        android:layout_width="60dp"
+        android:id="@+id/c3a"
+        android:layout_width="80dp"
         android:layout_height="75dp"
         android:text="ToggleButton"
-        app:layout_constraintStart_toEndOf="@+id/toggleButton"
-        app:layout_constraintTop_toTopOf="@+id/toggleButton" />
+        android:textOff="NO"
+        android:textOn="CLIMB"
+        app:layout_constraintStart_toEndOf="@+id/c2a"
+        app:layout_constraintTop_toTopOf="@+id/c2a" />
 
     <ToggleButton
-        android:id="@+id/toggleButton5"
-        android:layout_width="60dp"
+        android:id="@+id/c3c"
+        android:layout_width="80dp"
         android:layout_height="75dp"
         android:text="ToggleButton"
-        app:layout_constraintStart_toEndOf="@+id/toggleButton7"
-        app:layout_constraintTop_toTopOf="@+id/toggleButton7" />
+        android:textOff="NO"
+        android:textOn="CLIMB"
+        app:layout_constraintStart_toEndOf="@+id/c2c"
+        app:layout_constraintTop_toTopOf="@+id/c2c" />
 
     <ToggleButton
-        android:id="@+id/toggleButton6"
-        android:layout_width="60dp"
+        android:id="@+id/c1c"
+        android:layout_width="80dp"
         android:layout_height="75dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
         android:text="ToggleButton"
-        app:layout_constraintStart_toEndOf="@+id/toggleButton4"
+        android:textOff="NO"
+        android:textOn="CLIMB"
+        app:layout_constraintStart_toEndOf="@+id/c3a"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <ToggleButton
-        android:id="@+id/toggleButton7"
-        android:layout_width="60dp"
+        android:id="@+id/c2c"
+        android:layout_width="80dp"
         android:layout_height="75dp"
         android:text="ToggleButton"
-        app:layout_constraintStart_toEndOf="@+id/toggleButton6"
-        app:layout_constraintTop_toTopOf="@+id/toggleButton6" />
+        android:textOff="NO"
+        android:textOn="CLIMB"
+        app:layout_constraintStart_toEndOf="@+id/c1c"
+        app:layout_constraintTop_toTopOf="@+id/c1c" />
 
     <ToggleButton
-        android:id="@+id/toggleButton8"
-        android:layout_width="0dp"
+        android:id="@+id/level"
+        android:layout_width="454dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="ToggleButton"
-        app:layout_constraintEnd_toEndOf="@+id/toggleButton5"
-        app:layout_constraintStart_toStartOf="@+id/toggleButton2"
+        android:textOff="LEVEL"
+        android:textOn="LEVEL"
+        app:layout_constraintEnd_toEndOf="@+id/c3c"
+        app:layout_constraintStart_toStartOf="@+id/c1a"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <TextView
@@ -74,8 +86,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Atempted"
-        app:layout_constraintEnd_toEndOf="@+id/toggleButton4"
-        app:layout_constraintStart_toStartOf="@+id/toggleButton2"
+        app:layout_constraintEnd_toEndOf="@+id/c3a"
+        app:layout_constraintStart_toStartOf="@+id/c1a"
         app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
     <TextView
@@ -84,8 +96,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Climb"
-        app:layout_constraintEnd_toEndOf="@+id/toggleButton5"
-        app:layout_constraintStart_toStartOf="@+id/toggleButton2"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/c3c"
+        app:layout_constraintStart_toStartOf="@+id/c1a"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -93,8 +106,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Actual"
-        app:layout_constraintEnd_toEndOf="@+id/toggleButton5"
-        app:layout_constraintStart_toStartOf="@+id/toggleButton6"
+        app:layout_constraintEnd_toEndOf="@+id/c3c"
+        app:layout_constraintStart_toStartOf="@+id/c1c"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
     <TextView
@@ -103,16 +116,16 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="Self"
-        app:layout_constraintEnd_toStartOf="@+id/toggleButton"
-        app:layout_constraintStart_toStartOf="@+id/toggleButton2"
-        app:layout_constraintTop_toBottomOf="@+id/toggleButton2" />
+        app:layout_constraintEnd_toStartOf="@+id/c2a"
+        app:layout_constraintStart_toStartOf="@+id/c1a"
+        app:layout_constraintTop_toBottomOf="@+id/c1a" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Other Bots"
-        app:layout_constraintEnd_toEndOf="@+id/toggleButton4"
-        app:layout_constraintStart_toStartOf="@+id/toggleButton"
+        app:layout_constraintEnd_toEndOf="@+id/c3a"
+        app:layout_constraintStart_toStartOf="@+id/c2a"
         app:layout_constraintTop_toTopOf="@+id/textView6" />
 
     <TextView
@@ -121,35 +134,46 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="Self"
-        app:layout_constraintEnd_toEndOf="@+id/toggleButton6"
-        app:layout_constraintStart_toStartOf="@+id/toggleButton6"
-        app:layout_constraintTop_toBottomOf="@+id/toggleButton6" />
+        app:layout_constraintEnd_toEndOf="@+id/c1c"
+        app:layout_constraintStart_toStartOf="@+id/c1c"
+        app:layout_constraintTop_toBottomOf="@+id/c1c" />
 
     <TextView
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Other Bots"
-        app:layout_constraintEnd_toEndOf="@+id/toggleButton5"
+        app:layout_constraintEnd_toEndOf="@+id/c3c"
         app:layout_constraintHorizontal_bias="0.509"
-        app:layout_constraintStart_toEndOf="@+id/toggleButton6"
+        app:layout_constraintStart_toEndOf="@+id/c1c"
         app:layout_constraintTop_toTopOf="@+id/textView9" />
+
+    <Space
+        android:id="@+id/space2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toEndOf="@+id/c3c"
+        app:layout_constraintTop_toBottomOf="@+id/button7" />
 
     <Button
         android:id="@+id/button6"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="Button"
-        app:layout_constraintStart_toStartOf="@+id/toggleButton8"
-        app:layout_constraintTop_toBottomOf="@+id/toggleButton8" />
+        android:layout_width="225dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:onClick="onClickCancelClimb"
+        android:text="CANCEL"
+        app:layout_constraintStart_toStartOf="@+id/level"
+        app:layout_constraintTop_toBottomOf="@+id/level" />
 
     <Button
         android:id="@+id/button7"
-        android:layout_width="190dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:text="Button"
-        app:layout_constraintStart_toEndOf="@+id/button6"
+        android:layout_width="225dp"
+        android:layout_height="50dp"
+        android:onClick="onClickDoneClimb"
+        android:text="DONE"
+        app:layout_constraintEnd_toEndOf="@+id/level"
         app:layout_constraintTop_toTopOf="@+id/button6" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -81,6 +81,7 @@ public class MapActivity extends DialogMaker {
     public boolean climbDialogOpen = false;
     public boolean isPregame = true;
     public boolean pregamePlace = false;
+    public boolean climbStarted = false;
 
     public boolean isPopupOpen = false;
 
@@ -102,7 +103,7 @@ public class MapActivity extends DialogMaker {
     public Button btn_foul;
     public Button btn_cyclesDefended;
     public Button btn_undo;
-    public Button btn_climb;
+    public ToggleButton btn_climb;
 
     public ToggleButton tb_incap;
     public ToggleButton tb_defense;
@@ -127,7 +128,7 @@ public class MapActivity extends DialogMaker {
     public RadioGroup radioMiss;
     public RadioGroup radioMade;
 
-
+    public ToggleButton c1a, c2a, c3a, c1c, c2c, c3c, level;
 
     public static int shotSuccess;
     public static int shotFail;
@@ -500,7 +501,7 @@ public class MapActivity extends DialogMaker {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (pw && timerCheck) {
+                    if (pw && timerCheck && !climbStarted) {
                         x = (int) motionEvent.getX();
                         y = (int) motionEvent.getY();
                         Log.e("Xcoordinate", String.valueOf(x));
@@ -526,6 +527,18 @@ public class MapActivity extends DialogMaker {
                             placePregame();
                         } else if (((!(x > 1130 || y > 580 || x < 230) && InputManager.mTabletType.equals("fire")) || (!(x > 840 || y > 440 || x < 175) && InputManager.mTabletType.equals("RCA"))) && InputManager.mAllianceColor.equals("blue")) {
                             placePregame();
+                        }
+                    } else if (climbStarted) {
+                        x = (int) motionEvent.getX();
+                        y = (int) motionEvent.getY();
+                        Log.e("Xcoordinate", String.valueOf(x));
+                        Log.e("Ycoordinate", String.valueOf(y));
+                        if ((!(x > 1130 || y > 580) && InputManager.mTabletType.equals("fire"))||(!(x > 840 || y > 440) && InputManager.mTabletType.equals("RCA"))) {
+                            pw = true;
+                            time = TimerUtil.timestamp;
+                            climbStarted = false;
+                            initClimb();
+                            climbDialogOpen = true;
                         }
                     }
                 }
@@ -775,9 +788,23 @@ public class MapActivity extends DialogMaker {
         Log.i("mRealTimeMatchDataVals?", mRealTimeMatchData.toString());
     }
 
-        public void onClickClimb(View view){
-        climbDialogOpen = true;
-        initClimb();
+    public void onClickClimb(View view){
+        if(btn_climb.isChecked()){
+            climbStarted = true;
+            tb_defense.setEnabled(false);
+            tb_incap.setEnabled(false);
+            btn_foul.setEnabled(false);
+        } else {
+            climbStarted = false;
+            tb_defense.setEnabled(true);
+            tb_incap.setEnabled(true);
+            btn_foul.setEnabled(true);
+        }
+    }
+
+    public void onClickCancelClimb(View view) {
+        climbStarted = true;
+        climbDialog.dismiss();
     }
 
     public void initClimb(){
@@ -786,8 +813,35 @@ public class MapActivity extends DialogMaker {
         climbDialog.setCanceledOnTouchOutside(false);
         climbDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         climbDialogLayout = (ConstraintLayout) this.getLayoutInflater().inflate(R.layout.map_popup_climb, null);
+        c1a = climbDialogLayout.findViewById(R.id.c1a);
+        c2a = climbDialogLayout.findViewById(R.id.c2a);
+        c3a = climbDialogLayout.findViewById(R.id.c3a);
+        c1c = climbDialogLayout.findViewById(R.id.c1c);
+        c2c = climbDialogLayout.findViewById(R.id.c2c);
+        c3c = climbDialogLayout.findViewById(R.id.c3c);
+        level = climbDialogLayout.findViewById(R.id.level);
         climbDialog.setContentView(climbDialogLayout);
         climbDialog.show();
+    }
+
+    public void onClickDoneClimb(View view) {
+        InputManager.climbX = x;
+        InputManager.climbY = y;
+        InputManager.climbTime = (int)Math.floor(time*10);
+        InputManager.climb1Actual = c1c.isChecked();
+        InputManager.climb2Actual = c2c.isChecked();
+        InputManager.climb3Actual = c3c.isChecked();
+        InputManager.climb1Attempt = c1a.isChecked();
+        InputManager.climb2Attempt = c2a.isChecked();
+        InputManager.climb3Attempt = c3a.isChecked();
+        InputManager.climbLevel = level.isChecked();
+        climbDialog.dismiss();
+        climbDialogOpen = false;
+        climbStarted = false;
+        tb_defense.setEnabled(true);
+        tb_incap.setEnabled(true);
+        btn_foul.setEnabled(true);
+        btn_climb.setChecked(false);
     }
 
     public void onClickCancelShot(View view) {
@@ -830,9 +884,7 @@ public class MapActivity extends DialogMaker {
         }
         mRealTimeMatchData.put(compressionDic);
         Log.i("mRealTimeMatchDataVals?", mRealTimeMatchData.toString());
-
     }
-
 
     public void onClickDone(View view) {
         if((radioMiss.getCheckedRadioButtonId() == -1) || (radioMade.getCheckedRadioButtonId() == -1)) {
@@ -1006,7 +1058,7 @@ public class MapActivity extends DialogMaker {
      */
 
     public void onClickDefense(View v) {
-        btn_climb = (Button) findViewById(R.id.btn_climb);
+        btn_climb = (ToggleButton) findViewById(R.id.btn_climb);
         if (tb_defense.isChecked()) {
             dismissPopups();
             pw = false;

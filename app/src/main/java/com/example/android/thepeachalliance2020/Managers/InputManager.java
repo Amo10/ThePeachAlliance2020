@@ -46,6 +46,17 @@ public class InputManager {
     public static String mScoutNameSave = "unselected";
     public static String mTabletIDSave = "unselected";
 
+    public static int climbTime;
+    public static int climbX;
+    public static int climbY;
+
+    public static Boolean climb1Attempt = false;
+    public static Boolean climb2Attempt = false;
+    public static Boolean climb3Attempt = false;
+    public static Boolean climb1Actual = false;
+    public static Boolean climb2Actual = false;
+    public static Boolean climb3Actual = false;
+    public static Boolean climbLevel= false;
 
     public static Boolean mAutoMove = null;
     public static int cyclesDefended = 0;
@@ -185,7 +196,6 @@ public class InputManager {
             }
         }
         return null;
-
     }
 
 
