@@ -83,31 +83,42 @@ public class DataCheckActivity extends DialogMaker {
                 InputManager.mOneTimeMatchData.put("isNoShow", InputManager.isNoShow);
                 InputManager.mOneTimeMatchData.put("autoMove", InputManager.mAutoMove);
                 InputManager.mOneTimeMatchData.put("teleopTime", InputManager.mTeleopTime);
+                InputManager.mOneTimeMatchData.put("fieldOrientation", InputManager.mFieldFlip);
                 InputManager.mOneTimeMatchData.put("appVersion", InputManager.mAppVersion);
                 //InputManager.mOneTimeMatchData.put("timerStarted", InputManager.mTimerStarted);
-                InputManager.mClimbData.put("type", "climb");
-                InputManager.mClimbData.put("time", InputManager.climbTime);
-                InputManager.mClimbData.put("x", InputManager.climbX);
-                InputManager.mClimbData.put("y", InputManager.climbY);
-                JSONObject self = new JSONObject();
-                self.put("attempted", InputManager.climb1Attempt);
-                self.put("climb", InputManager.climb1Actual);
-                JSONObject bot1 = new JSONObject();
-                bot1.put("attempted", InputManager.climb1Attempt);
-                bot1.put("climb", InputManager.climb1Actual);
-                JSONObject bot2 = new JSONObject();
-                bot2.put("attempted", InputManager.climb1Attempt);
-                bot2.put("climb", InputManager.climb1Actual);
-                InputManager.mClimbData.put("self", self);
-                InputManager.mClimbData.put("bot1", bot1);
-                InputManager.mClimbData.put("bot2", bot2);
-                InputManager.mRealTimeMatchData.put(InputManager.mClimbData);
-
+                if(InputManager.parkAttempt) {
+                    InputManager.mClimbData.put("type", "park");
+                    InputManager.mClimbData.put("time", InputManager.climbTime);
+                    InputManager.mClimbData.put("x", InputManager.climbX);
+                    InputManager.mClimbData.put("y", InputManager.climbY);
+                    InputManager.mClimbData.put("attempted", InputManager.parkAttempt);
+                    InputManager.mClimbData.put("cSuccess", InputManager.parkActual);
+                    InputManager.mRealTimeMatchData.put(InputManager.mClimbData);
+                } else if (InputManager.climb1Attempt) {
+                    InputManager.mClimbData.put("type", "climb");
+                    InputManager.mClimbData.put("time", InputManager.climbTime);
+                    InputManager.mClimbData.put("x", InputManager.climbX);
+                    InputManager.mClimbData.put("y", InputManager.climbY);
+                    JSONObject self = new JSONObject();
+                    self.put("attempted", InputManager.climb1Attempt);
+                    self.put("cSuccess", InputManager.climb1Actual);
+                    JSONObject bot1 = new JSONObject();
+                    bot1.put("attempted", InputManager.climb1Attempt);
+                    bot1.put("cSuccess", InputManager.climb1Actual);
+                    JSONObject bot2 = new JSONObject();
+                    bot2.put("attempted", InputManager.climb1Attempt);
+                    bot2.put("cSuccess", InputManager.climb1Actual);
+                    InputManager.mClimbData.put("self", self);
+                    InputManager.mClimbData.put("bot1", bot1);
+                    InputManager.mClimbData.put("bot2", bot2);
+                    InputManager.mRealTimeMatchData.put(InputManager.mClimbData);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             InputManager.mScoutNameSave = InputManager.mScoutName;
             InputManager.mTabletIDSave = InputManager.mTabletID;
+            InputManager.mFieldFlipSave = InputManager.mFieldFlip;
             open(QRDisplayActivity.class, null, false, false);
         }
     }

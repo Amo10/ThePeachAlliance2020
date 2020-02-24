@@ -29,6 +29,7 @@ import com.example.android.thepeachalliance2020.utils.TimerUtil;
 import com.example.android.thepeachalliance2020.utils.PregameDialog;
 import com.example.android.thepeachalliance2020.Managers.InputManager;
 
+import static com.example.android.thepeachalliance2020.Managers.InputManager.mFieldFlip;
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mPreload;
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mRealTimeMatchData;
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mStartPosX;
@@ -128,7 +129,7 @@ public class MapActivity extends DialogMaker {
     public RadioGroup radioMiss;
     public RadioGroup radioMade;
 
-    public ToggleButton c1a, c2a, c3a, c1c, c2c, c3c, level;
+    public ToggleButton c1a, c2a, c3a, c1c, c2c, c3c, level, pa, pc;
 
     public static int shotSuccess;
     public static int shotFail;
@@ -245,9 +246,9 @@ public class MapActivity extends DialogMaker {
         btn_foul.setEnabled(false);
         btn_undo.setEnabled(false);
 
-        if (InputManager.mAllianceColor.equals("blue")) {
+        if ((InputManager.mAllianceColor.equals("blue") && mFieldFlip) || (InputManager.mAllianceColor.equals("red") && !mFieldFlip)) {
             transactionp.add(R.id.left_menu, fragmentp, "FRAGMENTPREGAME");
-        } else if (InputManager.mAllianceColor.equals("red")) {
+        } else if ((InputManager.mAllianceColor.equals("red")&& mFieldFlip) || (InputManager.mAllianceColor.equals("blue") && !mFieldFlip)) {
             transactionp.add(R.id.right_menu, fragmentp, "FRAGMENTPREGAME");
         }
         transactionp.commit();
@@ -326,6 +327,7 @@ public class MapActivity extends DialogMaker {
                 return true;
             }
         }));
+        mapChange();
     }
 
     public void toAuto() {
@@ -343,9 +345,9 @@ public class MapActivity extends DialogMaker {
             transactiona = fma.beginTransaction();
 
 
-            if (InputManager.mAllianceColor.equals("blue")) {
+            if ((InputManager.mAllianceColor.equals("blue") && mFieldFlip) || (InputManager.mAllianceColor.equals("red") && !mFieldFlip)) {
                 transactiona.add(R.id.left_menu, fragmenta, "FRAGMENTAUTO");
-            } else if (InputManager.mAllianceColor.equals("red")) {
+            } else if ((InputManager.mAllianceColor.equals("red")&& mFieldFlip) || (InputManager.mAllianceColor.equals("blue") && !mFieldFlip)) {
                 transactiona.add(R.id.right_menu, fragmenta, "FRAGMENTAUTO");
             }
             transactiona.commit();
@@ -501,7 +503,7 @@ public class MapActivity extends DialogMaker {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    if (pw && timerCheck && !climbStarted) {
+                    if (pw && tele && timerCheck && !climbStarted) {
                         x = (int) motionEvent.getX();
                         y = (int) motionEvent.getY();
                         Log.e("Xcoordinate", String.valueOf(x));
@@ -516,6 +518,30 @@ public class MapActivity extends DialogMaker {
                                 modeIsIntake = false;
                                 selectDialogOpen = true;
                             }
+                    } else if (pw && !tele && !isPregame && timerCheck && !climbStarted) {
+                        x = (int) motionEvent.getX();
+                        y = (int) motionEvent.getY();
+                        Log.e("Xcoordinate", String.valueOf(x));
+                        Log.e("Ycoordinate", String.valueOf(y));
+
+                        //Set coordinates of map based on tablet type
+
+                        //Set coordinates of map based on tablet type
+                        if (((!(x > 900 || y > 580) && InputManager.mTabletType.equals("fire")) || (!(x > 675 || y > 580) && InputManager.mTabletType.equals("RCA"))) && ((InputManager.mAllianceColor.equals("red")&& mFieldFlip) || (InputManager.mAllianceColor.equals("blue") && !mFieldFlip))) {
+                            pw = true;
+                            time = TimerUtil.timestamp;
+                            initSelect();
+                            //initPlacement();
+                            modeIsIntake = false;
+                            selectDialogOpen = true;
+                        } else if (((!(x > 1130 || y > 580 || x < 230) && InputManager.mTabletType.equals("fire")) || (!(x > 840 || y > 440 || x < 175) && InputManager.mTabletType.equals("RCA"))) && ((InputManager.mAllianceColor.equals("blue") && mFieldFlip) || (InputManager.mAllianceColor.equals("red") && !mFieldFlip))) {
+                            pw = true;
+                            time = TimerUtil.timestamp;
+                            initSelect();
+                            //initPlacement();
+                            modeIsIntake = false;
+                            selectDialogOpen = true;
+                        }
                     } else if (isPregame && !tb_noshow.isChecked()) {
                         x = (int) motionEvent.getX();
                         y = (int) motionEvent.getY();
@@ -523,9 +549,9 @@ public class MapActivity extends DialogMaker {
                         Log.e("Ycoordinate", String.valueOf(y));
 
                         //Set coordinates of map based on tablet type
-                        if (((!(x > 900 || y > 580) && InputManager.mTabletType.equals("fire")) || (!(x > 675 || y > 580) && InputManager.mTabletType.equals("RCA"))) && InputManager.mAllianceColor.equals("red")) {
+                        if (((!(x > 900 || y > 580) && InputManager.mTabletType.equals("fire")) || (!(x > 675 || y > 580) && InputManager.mTabletType.equals("RCA"))) && ((InputManager.mAllianceColor.equals("red")&& mFieldFlip) || (InputManager.mAllianceColor.equals("blue") && !mFieldFlip))) {
                             placePregame();
-                        } else if (((!(x > 1130 || y > 580 || x < 230) && InputManager.mTabletType.equals("fire")) || (!(x > 840 || y > 440 || x < 175) && InputManager.mTabletType.equals("RCA"))) && InputManager.mAllianceColor.equals("blue")) {
+                        } else if (((!(x > 1130 || y > 580 || x < 230) && InputManager.mTabletType.equals("fire")) || (!(x > 840 || y > 440 || x < 175) && InputManager.mTabletType.equals("RCA"))) && ((InputManager.mAllianceColor.equals("blue") && mFieldFlip) || (InputManager.mAllianceColor.equals("red") && !mFieldFlip))) {
                             placePregame();
                         }
                     } else if (climbStarted) {
@@ -819,15 +845,79 @@ public class MapActivity extends DialogMaker {
         c1c = climbDialogLayout.findViewById(R.id.c1c);
         c2c = climbDialogLayout.findViewById(R.id.c2c);
         c3c = climbDialogLayout.findViewById(R.id.c3c);
+        pa = climbDialogLayout.findViewById(R.id.pa);
+        pc = climbDialogLayout.findViewById(R.id.pc);
         level = climbDialogLayout.findViewById(R.id.level);
         climbDialog.setContentView(climbDialogLayout);
         climbDialog.show();
     }
 
+    public void onClickClimbBtn(View view) {
+        if(pa.isChecked()){
+            c1a.setEnabled(false);
+            c2a.setEnabled(false);
+            c3a.setEnabled(false);
+            c1c.setEnabled(false);
+            c2c.setEnabled(false);
+            c3c.setEnabled(false);
+            pc.setEnabled(true);
+            c1a.setChecked(false);
+            c2a.setChecked(false);
+            c3a.setChecked(false);
+            c1c.setChecked(false);
+            c2c.setChecked(false);
+            c3c.setChecked(false);
+        }
+        if(!pa.isChecked()) {
+            pc.setEnabled(false);
+            pc.setChecked(false);
+            c1a.setEnabled(true);
+            if(c1a.isChecked()) {
+                c2a.setEnabled(true);
+                pa.setEnabled(false);
+                c1c.setEnabled(true);
+                level.setEnabled(true);
+                if(c2a.isChecked()) {
+                    c3a.setEnabled(true);
+                    c2c.setEnabled(true);
+                    if(c3a.isChecked()) {
+                        c3c.setEnabled(true);
+                    } else {
+                        c3c.setEnabled(false);
+                        c3c.setChecked(false);
+                    }
+                } else {
+                    c3a.setEnabled(false);
+                    c2c.setEnabled(false);
+                    c3c.setEnabled(false);
+                    c3a.setChecked(false);
+                    c2c.setChecked(false);
+                    c3c.setChecked(false);
+                }
+            } else {
+                level.setEnabled(false);
+                c2a.setEnabled(false);
+                c3a.setEnabled(false);
+                c1c.setEnabled(false);
+                c2c.setEnabled(false);
+                c3c.setEnabled(false);
+                c2a.setChecked(false);
+                c3a.setChecked(false);
+                c1c.setChecked(false);
+                c2c.setChecked(false);
+                c3c.setChecked(false);
+                level.setChecked(false);
+            }
+        }
+    }
+
+
     public void onClickDoneClimb(View view) {
         InputManager.climbX = x;
         InputManager.climbY = y;
         InputManager.climbTime = (int)Math.floor(time*10);
+        InputManager.parkAttempt = pa.isChecked();
+        InputManager.parkActual = pc.isChecked();
         InputManager.climb1Actual = c1c.isChecked();
         InputManager.climb2Actual = c2c.isChecked();
         InputManager.climb3Actual = c3c.isChecked();
@@ -978,84 +1068,13 @@ public class MapActivity extends DialogMaker {
 
 
     //Set map drawable based user mode
-    /*
     public void mapChange() {
-        if (element.equals("cargo") && !tb_incap.isChecked() && !tb_defense.isChecked()) {
-            iv_game_element.setImageDrawable(getResources().getDrawable(R.drawable.map_indicator_cargo));
-            if (mode.equals("placement")) {
-                iv_game_element.setImageDrawable(getResources().getDrawable(R.drawable.map_indicator_cargo));
-
-                if (field_orientation.contains("left")) {
-                    iv_field.setImageResource(R.drawable.map_field_placement_cargo_left);
-                } else if (field_orientation.contains("right")) {
-                    iv_field.setImageResource(R.drawable.map_field_placement_cargo_right);
-                }
-            }
-        } else if (element.equals("panel") && !tb_incap.isChecked() && !tb_defense.isChecked()) {
-            iv_game_element.setImageDrawable(getResources().getDrawable(R.drawable.map_indicator_panel));
-            if (mode.equals("placement")) {
-                if (field_orientation.contains("left")) {
-                    iv_field.setImageResource(R.drawable.map_field_placement_panel_left);
-                } else if (field_orientation.contains("right")) {
-                    iv_field.setImageResource(R.drawable.map_field_placement_panel_right);
-                }
-            }
-        }
-        if (mode.equals("intake") && !tb_incap.isChecked() && !tb_defense.isChecked()) {
-            btn_drop.setEnabled(false);
-            if (field_orientation.equals("blue_left")) {
-                iv_field.setImageResource(R.drawable.map_field_intake_blue_left);
-            } else if (field_orientation.equals("blue_right")) {
-                iv_field.setImageResource(R.drawable.map_field_intake_blue_right);
-            } else if (field_orientation.equals("red_left")) {
-                iv_field.setImageResource(R.drawable.map_field_intake_red_left);
-            } else if (field_orientation.equals("red_right")) {
-                iv_field.setImageResource(R.drawable.map_field_intake_red_right);
-            }
-        }
-        if (tb_incap.isChecked()) {
-            if (field_orientation.contains("right")) {
-                iv_field.setImageResource(R.drawable.map_field_incap_right);
-            } else if (field_orientation.contains("left")) {
-                iv_field.setImageResource(R.drawable.map_field_incap_left);
-            }
-        } else if (tb_defense.isChecked()) {
-            if (mode.equals("intake")) {
-                if (field_orientation.equals("blue_left")) {
-                    iv_field.setImageResource(R.drawable.map_field_defense_blue_left);
-                } else if (field_orientation.equals("blue_right")) {
-                    iv_field.setImageResource(R.drawable.map_field_defense_blue_right);
-                } else if (field_orientation.equals("red_left")) {
-                    iv_field.setImageResource(R.drawable.map_field_defense_red_left);
-                } else if (field_orientation.equals("red_right")) {
-                    iv_field.setImageResource(R.drawable.map_field_defense_red_right);
-                }
-            }
-            if (element.equals("cargo")) {
-                iv_game_element.setImageDrawable(getResources().getDrawable(R.drawable.map_indicator_cargo));
-                if (mode.equals("placement")) {
-                    iv_game_element.setImageDrawable(getResources().getDrawable(R.drawable.map_indicator_cargo));
-                    if (field_orientation.contains("left")) {
-                        iv_field.setImageResource(R.drawable.map_field_defense_placement_cargo_left);
-                    } else if (field_orientation.contains("right")) {
-                        iv_field.setImageResource(R.drawable.map_field_defense_placement_cargo_right);
-                    }
-                }
-            }
-            if (element.equals("panel")) {
-                iv_game_element.setImageDrawable(getResources().getDrawable(R.drawable.map_indicator_panel));
-                if (mode.equals("placement")) {
-                    if (field_orientation.contains("left")) {
-                        iv_field.setImageResource(R.drawable.map_field_defense_placement_panel_left);
-                    } else if (field_orientation.contains("right")) {
-                        iv_field.setImageResource(R.drawable.map_field_defense_placement_panel_right);
-                    }
-                }
-            }
+        if (InputManager.mFieldFlip) {
+            iv_field.setImageResource(R.drawable.map_field_flip);
+        } else {
+            iv_field.setImageResource(R.drawable.map_field);
         }
     }
-
-     */
 
     public void onClickDefense(View v) {
         btn_climb = (ToggleButton) findViewById(R.id.btn_climb);

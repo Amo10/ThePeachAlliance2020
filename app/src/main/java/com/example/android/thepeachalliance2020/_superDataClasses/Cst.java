@@ -31,66 +31,90 @@ public interface Cst {
 
     //Stores manual compression keys that aren't separated by commas
     Map<String, String> initialCompressKeys = new HashMap<String, String>() {{
-        put("startingLocation", "a");
+        put("matchInfo", "a");
         put("preload", "b");
         put("isNoShow", "c");
         put("autoMove", "d");
-        put("scoutID", "e");
-        put("appVersion", "f");
-        put("timerStarted", "g");
+        put("appVersion", "e");
+        put("startingLocationY", "g");
+        put("startingLocationX", "h");
+        put("teleopTime", "i");
     }};
+
     //Compresses specific keys as letters
     Map<String, String> compressKeys = new HashMap<String, String>() {{
+        put("cyclesDefended", "k");
+        put("type", "l");
+        put("time", "m");
 
-
-        put("cyclesDefended", "J");
-        put("type", "r");
-        put("time", "s");
-
-        put("piece", "t");
-        put("zone", "u");
-        put("didSucceed", "v");
-        put("wasDefended", "w");
-        put("structure", "x");
-        put("side", "y");
-        put("shotOutOfField", "H");
-        put("level", "z");
-        put("startDefense", "A");
-        put("endDefense", "G");
-
-        put("attempted", "B");
-        put("actual", "C");
-        put("self", "D");
-        put("robot1", "E");
-        put("robot2", "F");
+        put("success", "n");
+        put("fail", "o");
+        put("time", "p");
+        put("defended", "q");
+        put("self", "r");
+        put("bot1", "s");
+        put("bot2", "t");
+        put("attempted", "u");
+        put("climbSuccess", "v");
     }};
 
     //Compress possible values as certain letters
     Map<String, String> compressValues = new HashMap<String, String>() {{
-        put("true", "T");
+        put("true", "w");
         put("false", "F");
         put("high", "A");
         put("low", "B");
-        put("right", "C");
-        put("far", "D");
-        put("cargo", "E");
-        put("panel", "G");
-        put("none", "H");
-        put("QR", "J");
-        put("backup", "K");
-        put("override", "L");
-        put("intake", "M");
-        put("placement", "N");
-        put("drop", "P");
-        put("foul", "Q");
-        put("climb", "R");
         put("incap", "S");
         put("unincap", "U");
-        put("leftLoadingStation", "d");
-        put("rightLoadingStation", "e");
-        put("leftRocket", "f");
-        put("rightRocket", "g");
-        put("cargoShip", "h");
-        put("near", "s");
+        put("startDefense", "K");
+        put("endDefense", "N");
+        put("foul", "Q");
+        put("climb", "R");
     }};
+
+    //Compress possible values as certain letters
+    Map<String, String> allCompressValues = new HashMap<String, String>() {{
+        put("{\"matchInfo\":\"", "a");
+        put(",\"preload\":", "b");
+        put(",\"isNoShow\":", "c");
+        put(",\"autoMove\":", "d");
+        put(",\"appVersion\":\"", "e");
+        put(",\"startingLocationY\":", "g");
+        put("\",\"startingLocationX\":", "h");
+        put(",\"teleopTime\":", "i");
+        put(",\"fieldOrientation\":", "O");
+
+        put(",\"cyclesDefended\":", "k");
+        //put("},{\"type\":", "l");
+        put("},{\"type\":", "L");
+        put("\",\"actions\":[", "J");
+
+        put(",\"x\":", "x");
+        put(",\"y\":", "y");
+
+
+        put(",\"success\":", "n");
+        put(",\"fail\":", "o");
+        put(",\"time\":", "p");
+        put(",\"defended\":", "q");
+        put(",\"self\":{", "r");
+        put("},\"bot1\":{", "s");
+        put("},\"bot2\":{", "t");
+        put("\"attempted\":", "u");
+        put(",\"cSuccess\":", "v");
+
+        put("true", "w");
+        put("false", "F");
+        put("\"high\"", "A");
+        put("\"low\"", "B");
+        put("\"unincap\"", "C");
+        put("\"incap\"", "D");
+        put("\"startDefense\"", "E");
+        put("\"endDefense\"", "G");
+        put("\"foul\"", "H");
+        put("\"climb\"", "I");
+        put("\"intake\"", "K");
+        put("\"park\"", "M");
+    }};
+
 }

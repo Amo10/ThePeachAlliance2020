@@ -31,6 +31,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
@@ -59,13 +60,14 @@ import static com.example.android.thepeachalliance2020.utils.AppUtils.readFile;
 public class MainActivity extends DialogMaker {
 
     public static EditText et_matchNum;
-    public static TextView tv_versionNumber, tv_teamNumber;
+    public static TextView tv_versionNumber, tv_teamNumber, tv_competition;
     public static Spinner sp_triggerScoutNamePopup, sp_triggerTabletIDPopup;
 
     public Button btn_triggerResendMatches;
     public PopupWindow pw_resendMatchWindow;
     public ListView lv_resendMatch;
     public ImageView QRImage;
+    public static ToggleButton btn_flip;
 
     public          ArrayAdapter<String> mResendMatchesArrayAdapter;
 
@@ -109,8 +111,7 @@ public class MainActivity extends DialogMaker {
         }
         return true;
     }
-
-//    private void requestPermits() {
+    //    private void requestPermits() {
 //        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)
 //                != PackageManager.PERMISSION_GRANTED) {
 //            Toast.makeText(getBaseContext(), "Go TO SETTINGS and add permissions", Toast.LENGTH_LONG).show();
@@ -153,6 +154,7 @@ public class MainActivity extends DialogMaker {
         if(!InputManager.mScoutNameSave.equals("unselected")){
             InputManager.mScoutName = InputManager.mScoutNameSave;
         }
+        InputManager.mFieldFlip = InputManager.mFieldFlipSave;
         initListeners();
         //InputManager.recoverUserData();
         updateUserData();
@@ -163,18 +165,19 @@ public class MainActivity extends DialogMaker {
     //Set all UI text values
     public static void updateUserData() {
         tv_versionNumber.setText(String.valueOf("Version: " + InputManager.mAppVersion));
+        tv_competition.setText(String.valueOf("Competition: " + InputManager.mCompetition));
         tv_teamNumber.setText(String.valueOf(InputManager.mTeamNum));
         et_matchNum.setText(String.valueOf(InputManager.mMatchNum));
-
+        btn_flip.setChecked(InputManager.mFieldFlip);
     }
 
 
     public void initViews() {
+        tv_competition = findViewById(R.id.tv_competition);
         tv_versionNumber = findViewById(R.id.tv_versionNumber);
         tv_teamNumber = findViewById(R.id.tv_teamNumber);
         et_matchNum = findViewById(R.id.et_matchNum);
-
-
+        btn_flip = findViewById(R.id.btn_flip);
     }
     //Add listeners to map and matchNum editor.
     public void initListeners() {
@@ -269,6 +272,10 @@ public class MainActivity extends DialogMaker {
         });
     }
 
+    public void onClickFieldFlip(View view){
+        InputManager.mFieldFlip = btn_flip.isChecked();
+    }
+
     public void onClickStartScouting(View view) {
         if (InputManager.mScoutName.equals("unselected") || InputManager.mMatchNum == 0 || InputManager.mTeamNum == 0) {
             Toast.makeText(getBaseContext(), "There is null information!", Toast.LENGTH_SHORT).show();
@@ -287,7 +294,7 @@ public class MainActivity extends DialogMaker {
     public void updateListView() {
         final File dir;
         //dir = new File(android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/scout_data");
-        dir = new File(Environment.getExternalStorageDirectory().toString()+"/scout/matches/");
+        dir = new File(Environment.getExternalStorageDirectory().toString()+"/scout/matches/" + InputManager.mCompetition + "/");
         if (!dir.mkdir()) {
             Log.i("File Exists", "Failed to make Directory. Unimportant");
         }
@@ -324,7 +331,7 @@ public class MainActivity extends DialogMaker {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String name = parent.getItemAtPosition(position).toString();
                 //name = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/scout_data/" + name;
-                name = Environment.getExternalStorageDirectory().toString() + "/scout/matches/" + name;
+                name = Environment.getExternalStorageDirectory().toString() + "/scout/matches/" + InputManager.mCompetition + "/" + name;
                 final String fileName = name;
                 String content = readFile(fileName);
                 openQRDialog(content);

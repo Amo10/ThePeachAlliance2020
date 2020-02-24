@@ -123,7 +123,7 @@ public class QRDisplayActivity extends DialogMaker {
     //Saves scout data as text file in tablet internal storage
     public void writeFileOnInternalStorage(String sFileName, String sBody) {
         //File file = new File(android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/scout_data");
-        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/scout/matches");        //String filePath = Environment.getExternalStorageDirectory().toString() + "/scout";
+        File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/scout/matches/" + InputManager.mCompetition);        //String filePath = Environment.getExternalStorageDirectory().toString() + "/scout";
 
         if (!file.exists()) {
             file.mkdir();

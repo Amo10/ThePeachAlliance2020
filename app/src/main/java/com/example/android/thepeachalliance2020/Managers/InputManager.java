@@ -29,6 +29,7 @@ public class InputManager {
 
     //Main Inputs
 
+    public static String mCompetition = "null";
     public static String matchKey = "1678-Q0-0";
     public static String mAllianceColor = "";
     public static String mScoutName = "unselected";
@@ -47,11 +48,16 @@ public class InputManager {
     public static int mTeleopTime = 0;
     public static String mScoutNameSave = "unselected";
     public static String mTabletIDSave = "unselected";
+    public static Boolean mFieldFlipSave = false;
+
+    public static Boolean mFieldFlip = false;
 
     public static int climbTime;
     public static int climbX;
     public static int climbY;
 
+    public static Boolean parkAttempt = false;
+    public static Boolean parkActual = false;
     public static Boolean climb1Attempt = false;
     public static Boolean climb2Attempt = false;
     public static Boolean climb3Attempt = false;
@@ -63,7 +69,7 @@ public class InputManager {
     public static Boolean mAutoMove = null;
     public static int cyclesDefended = 0;
 
-    public static String mAppVersion = "1.1";
+    public static String mAppVersion = "1.4";
     public static String mDatabaseURL;
 
     //Populate Scout List
@@ -211,6 +217,7 @@ public class InputManager {
             try {
                 JSONObject data = new JSONObject(AppUtils.retrieveSDCardFile("Setup.txt"));
                 mTabletType = data.getString("device");
+                mCompetition = data.getString("competition");
             } catch (JSONException e) {
                 e.printStackTrace();
             }

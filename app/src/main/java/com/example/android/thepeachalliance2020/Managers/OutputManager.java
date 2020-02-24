@@ -3,6 +3,8 @@ package com.example.android.thepeachalliance2020.Managers;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.util.Map;
+import java.util.HashMap;
 
 import java.util.Iterator;
 
@@ -65,8 +67,15 @@ public class OutputManager {
     }
 
     public static String compressMatchDataNew(JSONObject pMatchData) {
-        return pMatchData.toString();
-        //for (text in Cst.compressValues)
+        String dataSring = pMatchData.toString();
+        String dataOut = dataSring;
+        for (Map.Entry<String,String> curr : Cst.allCompressValues.entrySet()){
+            dataOut = dataOut.replace(curr.getKey(), curr.getValue());
+        }
+        dataOut = dataOut.replace("{\"type\":", "l");
+        //dataOut = dataOut.substring(0, dataOut.length() - 4);
+        return dataOut;
+
     }
 }
 
