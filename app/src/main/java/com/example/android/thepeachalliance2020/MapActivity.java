@@ -1088,7 +1088,7 @@ public class MapActivity extends DialogMaker {
             btn_cyclesDefended.setEnabled(true);
             btn_cyclesDefended.setVisibility(View.VISIBLE);
             btn_cyclesDefended.bringToFront();
-            btn_cyclesDefended.setText("FAILED PLACEMENTS/DROPS CAUSED - 0");
+            btn_cyclesDefended.setText("FAILED SHOTS/DROPS CAUSED - 0");
 
             compressionDic = new JSONObject();
 
@@ -1147,7 +1147,7 @@ public class MapActivity extends DialogMaker {
     //Increment when pressed.
     public void onClickCyclesDefended(View v) {
         InputManager.cyclesDefended++;
-        btn_cyclesDefended.setText("FAILED PLACEMENTS/DROPS CAUSED - " + InputManager.cyclesDefended);
+        btn_cyclesDefended.setText("FAILED SHOTS/DROPS CAUSED - " + InputManager.cyclesDefended);
     }
 
     //Add timestamp to objects in mRealTimeMatchData

@@ -294,7 +294,7 @@ public class MainActivity extends DialogMaker {
     public void updateListView() {
         final File dir;
         //dir = new File(android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/scout_data");
-        dir = new File(Environment.getExternalStorageDirectory().toString()+"/scout/matches/" + InputManager.mCompetition + "/");
+        dir = new File(Environment.getExternalStorageDirectory().toString()+"/scout/matches/");
         if (!dir.mkdir()) {
             Log.i("File Exists", "Failed to make Directory. Unimportant");
         }
@@ -331,7 +331,7 @@ public class MainActivity extends DialogMaker {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String name = parent.getItemAtPosition(position).toString();
                 //name = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/scout_data/" + name;
-                name = Environment.getExternalStorageDirectory().toString() + "/scout/matches/" + InputManager.mCompetition + "/" + name;
+                name = Environment.getExternalStorageDirectory().toString() + "/scout/matches/" + name;
                 final String fileName = name;
                 String content = readFile(fileName);
                 openQRDialog(content);
