@@ -431,8 +431,8 @@ public class MapActivity extends DialogMaker {
 
         if (startTimer) {
             pw = true;
-            handler.postDelayed(runnable, 150000); //Should be 150000
-            teleWarningHandler.postDelayed(teleWarningRunnable, 25000); //Should be 25000
+            handler.postDelayed(runnable, 15000); //Should be 150000
+            teleWarningHandler.postDelayed(teleWarningRunnable, 2500); //Should be 25000
             timerUtil.initTimer();
             btn_startTimer.setText("RESET TIMER");
             timerCheck = true;
@@ -853,62 +853,61 @@ public class MapActivity extends DialogMaker {
     }
 
     public void onClickClimbBtn(View view) {
+        if (c1c.isChecked()){
+            pa.setChecked(false);
+            pa.setEnabled(false);
+        } else {
+            pa.setEnabled(true);
+        }
         if(pa.isChecked()){
-            c1a.setEnabled(false);
+            pc.setEnabled(true);
+        } else {
+            pc.setChecked(false);
+            pc.setEnabled(false);
+        }
+        c1a.setEnabled(true);
+        if(c1a.isChecked()) {
+            c2a.setEnabled(true);
+            c1c.setEnabled(true);
+            level.setEnabled(true);
+            if(c2a.isChecked()) {
+                c3a.setEnabled(true);
+                c2c.setEnabled(true);
+            } else {
+                c3a.setEnabled(false);
+                c2c.setEnabled(false);
+                c3a.setChecked(false);
+                c2c.setChecked(false);
+            }
+            if(c1c.isChecked()){
+                if(c3a.isChecked()) {
+                    c3c.setEnabled(true);
+                } else {
+                    c3c.setEnabled(false);
+                    c3c.setChecked(false);
+                }
+            } else {
+                c2c.setEnabled(false);
+                c3c.setEnabled(false);
+                c2c.setChecked(false);
+                c3c.setChecked(false);
+            }
+        } else {
+            level.setEnabled(false);
             c2a.setEnabled(false);
             c3a.setEnabled(false);
             c1c.setEnabled(false);
             c2c.setEnabled(false);
             c3c.setEnabled(false);
-            pc.setEnabled(true);
-            c1a.setChecked(false);
             c2a.setChecked(false);
             c3a.setChecked(false);
             c1c.setChecked(false);
             c2c.setChecked(false);
             c3c.setChecked(false);
+            level.setChecked(false);
         }
-        if(!pa.isChecked()) {
-            pc.setEnabled(false);
-            pc.setChecked(false);
-            c1a.setEnabled(true);
-            if(c1a.isChecked()) {
-                c2a.setEnabled(true);
-                pa.setEnabled(false);
-                c1c.setEnabled(true);
-                level.setEnabled(true);
-                if(c2a.isChecked()) {
-                    c3a.setEnabled(true);
-                    c2c.setEnabled(true);
-                    if(c3a.isChecked()) {
-                        c3c.setEnabled(true);
-                    } else {
-                        c3c.setEnabled(false);
-                        c3c.setChecked(false);
-                    }
-                } else {
-                    c3a.setEnabled(false);
-                    c2c.setEnabled(false);
-                    c3c.setEnabled(false);
-                    c3a.setChecked(false);
-                    c2c.setChecked(false);
-                    c3c.setChecked(false);
-                }
-            } else {
-                level.setEnabled(false);
-                c2a.setEnabled(false);
-                c3a.setEnabled(false);
-                c1c.setEnabled(false);
-                c2c.setEnabled(false);
-                c3c.setEnabled(false);
-                c2a.setChecked(false);
-                c3a.setChecked(false);
-                c1c.setChecked(false);
-                c2c.setChecked(false);
-                c3c.setChecked(false);
-                level.setChecked(false);
-            }
-        }
+
+
     }
 
 

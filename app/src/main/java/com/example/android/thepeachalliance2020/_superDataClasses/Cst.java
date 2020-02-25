@@ -114,7 +114,7 @@ public interface Cst {
         put("\"foul\"", "H");
         put("\"climb\"", "I");
         put("\"intake\"", "K");
-        put("\"park\"", "M");
+        put("},\"park\":{", "M");
     }};
 
 }
