@@ -115,6 +115,7 @@ public interface Cst {
         put("\"climb\"", "I");
         put("\"intake\"", "K");
         put("},\"park\":{", "M");
+        put(",\"level\":", "O");
     }};
 
 }

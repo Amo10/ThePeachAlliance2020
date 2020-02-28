@@ -903,8 +903,7 @@ public class MapActivity extends DialogMaker {
             c3c.setChecked(false);
             level.setChecked(false);
         }
-
-
+        initOnlyShape();
     }
 
 

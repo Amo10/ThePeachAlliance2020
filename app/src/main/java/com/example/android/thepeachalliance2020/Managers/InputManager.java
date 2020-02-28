@@ -69,7 +69,7 @@ public class InputManager {
     public static Boolean mAutoMove = null;
     public static int cyclesDefended = 0;
 
-    public static String mAppVersion = "1.7";
+    public static String mAppVersion = "2.0";
     public static String mDatabaseURL;
 
     //Populate Scout List

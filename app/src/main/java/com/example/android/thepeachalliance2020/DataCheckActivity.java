@@ -96,6 +96,7 @@ public class DataCheckActivity extends DialogMaker {
                 JSONObject self = new JSONObject();
                 self.put("attempted", InputManager.climb1Attempt);
                 self.put("cSuccess", InputManager.climb1Actual);
+                self.put("level", InputManager.climbLevel);
                 JSONObject bot1 = new JSONObject();
                 bot1.put("attempted", InputManager.climb1Attempt);
                 bot1.put("cSuccess", InputManager.climb1Actual);
