@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -19,6 +20,9 @@ import com.example.android.thepeachalliance2020._superDataClasses.Cst;
 import com.example.android.thepeachalliance2020._superActivities.DialogMaker;
 import com.example.android.thepeachalliance2020.utils.AppUtils;
 import com.example.android.thepeachalliance2020.utils.QRDisplayActivity;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static java.lang.String.valueOf;
 
@@ -84,6 +88,7 @@ public class DataCheckActivity extends DialogMaker {
                 InputManager.mOneTimeMatchData.put("autoMove", InputManager.mAutoMove);
                 InputManager.mOneTimeMatchData.put("teleopTime", InputManager.mTeleopTime);
                 InputManager.mOneTimeMatchData.put("fieldOrientation", InputManager.mFieldFlip);
+                InputManager.mOneTimeMatchData.put("timeStamp", new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()));
                 InputManager.mOneTimeMatchData.put("appVersion", InputManager.mAppVersion);
                 //InputManager.mOneTimeMatchData.put("timerStarted", InputManager.mTimerStarted);
                 InputManager.mClimbData.put("type", "climb");
@@ -108,6 +113,11 @@ public class DataCheckActivity extends DialogMaker {
                 InputManager.mClimbData.put("bot1", bot1);
                 InputManager.mClimbData.put("bot2", bot2);
                 InputManager.mRealTimeMatchData.put(InputManager.mClimbData);
+                InputManager.mColorData.put("type", "color");
+                InputManager.mColorData.put("position", InputManager.colorPosition);
+                InputManager.mColorData.put("rotation", InputManager.colorRotate);
+                InputManager.mRealTimeMatchData.put(InputManager.mColorData);
+
 
             } catch (JSONException e) {
                 e.printStackTrace();

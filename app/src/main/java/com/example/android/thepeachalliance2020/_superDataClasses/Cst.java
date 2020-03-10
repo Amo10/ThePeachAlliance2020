@@ -46,7 +46,6 @@ public interface Cst {
         put("cyclesDefended", "k");
         put("type", "l");
         put("time", "m");
-
         put("success", "n");
         put("fail", "o");
         put("time", "p");
@@ -78,7 +77,7 @@ public interface Cst {
         put(",\"preload\":", "b");
         put(",\"isNoShow\":", "c");
         put(",\"autoMove\":", "d");
-        put(",\"appVersion\":\"", "e");
+        put("\",\"appVersion\":\"", "e");
         put(",\"startingLocationY\":", "g");
         put("\",\"startingLocationX\":", "h");
         put(",\"teleopTime\":", "i");
@@ -116,6 +115,10 @@ public interface Cst {
         put("\"intake\"", "K");
         put("},\"park\":{", "M");
         put(",\"level\":", "O");
+        put("\"color\"", "P");
+        put(",\"position\":", "Q");
+        put(",\"rotation\":", "R");
+        put(",\"timeStamp\":\"", "S");
     }};
 
 }

@@ -82,6 +82,7 @@ public class MainActivity extends DialogMaker {
     protected void onCreate(Bundle savedInstanceState) {
 // Permission has already been granted
         InputManager.mClimbData = new JSONObject();
+        InputManager.mColorData = new JSONObject();
         InputManager.climbTime = 0;
         InputManager.climbX = 0;
         InputManager.climbY = 0;
@@ -91,6 +92,8 @@ public class MainActivity extends DialogMaker {
         InputManager.climb1Actual = false;
         InputManager.climb1Attempt = false;
         InputManager.climb1Actual = false;
+        InputManager.colorPosition = false;
+        InputManager.colorRotate = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);

@@ -10,33 +10,23 @@
     <Button
         android:id="@+id/btn_rotate"
         android:layout_width="250dp"
-        android:layout_height="254dp"
+        android:layout_height="175dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
-        android:onClick="onClickPickup"
-        android:text="PICKUP"
+        android:onClick="onClickRotate"
+        android:text="ROTATE"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btn_low"
-        android:layout_width="250dp"
-        android:layout_height="125dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
-        android:onClick="onClickLow"
-        android:text="LOW"
-        app:layout_constraintStart_toEndOf="@+id/btn_rotate"
-        app:layout_constraintTop_toBottomOf="@+id/btn_position" />
-
-    <Button
         android:id="@+id/btn_position"
         android:layout_width="250dp"
-        android:layout_height="125dp"
+        android:layout_height="0dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
-        android:onClick="onClickHigh"
-        android:text="HIGH"
+        android:onClick="onClickPosition"
+        android:text="POSITION"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_rotate"
         app:layout_constraintStart_toEndOf="@+id/btn_rotate"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,13 +36,12 @@
         android:layout_height="100dp"
         android:layout_marginStart="4dp"
         android:layout_marginTop="4dp"
-        android:onClick="onClickCancelSelect"
+        android:onClick="onClickColorClose"
         android:text="CANCEL"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_rotate" />
 
     <Space
-        android:id="@+id/space3"
         android:layout_width="504dp"
         android:layout_height="4dp"
         app:layout_constraintStart_toStartOf="parent"

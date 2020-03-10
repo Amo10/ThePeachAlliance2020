@@ -24,6 +24,7 @@ public class InputManager {
     //Below is finaldata to be inputted to QR
     public static JSONObject mFinalJSON;
     public static JSONObject mClimbData;
+    public static JSONObject mColorData;
 
 
 
@@ -66,10 +67,13 @@ public class InputManager {
     public static Boolean climb3Actual = false;
     public static Boolean climbLevel= false;
 
+    public static Boolean colorRotate = false;
+    public static Boolean colorPosition = false;
+
     public static Boolean mAutoMove = null;
     public static int cyclesDefended = 0;
 
-    public static String mAppVersion = "2.0";
+    public static String mAppVersion = "2.2";
     public static String mDatabaseURL;
 
     //Populate Scout List

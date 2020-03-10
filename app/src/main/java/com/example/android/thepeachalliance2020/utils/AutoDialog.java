@@ -17,6 +17,7 @@ public class AutoDialog extends Fragment {
     public static View view;
     public static Button btn_startTimer;
     public static ToggleButton tb_auto_move;
+    public static ToggleButton tb_no_move;
     public static Button btn_teleop;
 
     @Override
@@ -27,12 +28,14 @@ public class AutoDialog extends Fragment {
             view = inflater.inflate(R.layout.map_auto_red, container, false);
             btn_startTimer = view.findViewById(R.id.btn_timer);
             tb_auto_move = view.findViewById(R.id.tgbtn_move);
+            tb_no_move = view.findViewById(R.id.tgbtn_no_move);
             btn_teleop =view.findViewById(R.id.btn_to_auto);
         }
         else if(InputManager.mAllianceColor.equals("blue")) {
             view = inflater.inflate(R.layout.map_auto_blue, container, false);
             btn_startTimer = view.findViewById(R.id.btn_timer);
             tb_auto_move = view.findViewById(R.id.tgbtn_move);
+            tb_no_move = view.findViewById(R.id.tgbtn_no_move);
             btn_teleop =view.findViewById(R.id.btn_to_auto);
         }
 

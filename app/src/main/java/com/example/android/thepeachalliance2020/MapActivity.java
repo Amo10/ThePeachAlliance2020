@@ -37,6 +37,7 @@ import static com.example.android.thepeachalliance2020.Managers.InputManager.mSt
 import static com.example.android.thepeachalliance2020.Managers.InputManager.mTabletType;
 
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.tb_auto_move;
+import static com.example.android.thepeachalliance2020.utils.AutoDialog.tb_no_move;
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.btn_startTimer;
 import static com.example.android.thepeachalliance2020.utils.AutoDialog.btn_teleop;
 
@@ -97,10 +98,11 @@ public class MapActivity extends DialogMaker {
     public int y;
 
     public ConstraintLayout selectDialogLayout;
+    public ConstraintLayout colorDialogLayout;
     public ConstraintLayout shotDialogLayout;
     public ConstraintLayout climbDialogLayout;
 
-    public Button btn_drop;
+    public Button btn_color;
     public Button btn_foul;
     public Button btn_cyclesDefended;
     public Button btn_undo;
@@ -197,6 +199,7 @@ public class MapActivity extends DialogMaker {
     public Map<Integer, List<Object>> actionDic;
 
     public Dialog placementDialog;
+    public Dialog colorDialog;
     public Dialog shotDialog;
     public Dialog climbDialog;
 
@@ -215,7 +218,7 @@ public class MapActivity extends DialogMaker {
         btn_climb = findViewById(R.id.btn_climb);
         btn_arrow = findViewById(R.id.btn_next);
         tv_team = findViewById(R.id.tv_teamNum);
-        btn_drop = findViewById(R.id.btn_dropped);
+        btn_color = findViewById(R.id.btn_color);
 
         btn_cyclesDefended = findViewById(R.id.btn_cyclesDefended);
 
@@ -268,7 +271,7 @@ public class MapActivity extends DialogMaker {
         InputManager.cyclesDefended = 0;
         isPregame = true;
 
-        btn_drop.setEnabled(false);
+        btn_climb.setEnabled(false);
         btn_undo.setEnabled(false);
         addTouchListener();
 
@@ -397,10 +400,19 @@ public class MapActivity extends DialogMaker {
         if (timerCheck && !tb_incap.isChecked()) {
             btn_climb.setEnabled(true);
             tb_defense.setEnabled(true);
+            btn_color.setEnabled(true);
         }
 
         //mapChange();
         InputManager.mAutoMove = tb_auto_move.isChecked();
+    }
+
+    public void onClickAutoMove(View view) {
+        tb_no_move.setChecked(false);
+    }
+
+    public void onClickAutoNoMove(View view) {
+        tb_auto_move.setChecked(false);
     }
 
     public void onClickAuto(View view) {
@@ -437,6 +449,7 @@ public class MapActivity extends DialogMaker {
             btn_undo.setEnabled(false);
             btn_teleop.setEnabled(true);
             tb_auto_move.setEnabled(true);
+            tb_no_move.setEnabled(true);
             tb_incap.setEnabled(true);
             btn_foul.setEnabled(true);
             InputManager.mTimerStarted = (int) (System.currentTimeMillis() / 1000);
@@ -460,9 +473,11 @@ public class MapActivity extends DialogMaker {
             //btn_climb.setEnabled(false);
             tb_auto_move.setEnabled(false);
             tb_auto_move.setChecked(false);
+            tb_no_move.setEnabled(false);
+            tb_no_move.setChecked(false);
             btn_teleop.setEnabled(false);
             btn_undo.setEnabled(false);
-            btn_drop.setEnabled(false);
+            btn_color.setEnabled(false);
             //actionDic.clear();
             TimerUtil.matchTimer.cancel();
             TimerUtil.matchTimer = null;
@@ -577,7 +592,7 @@ public class MapActivity extends DialogMaker {
             dismissPopups();
 
             btn_climb.setEnabled(false);
-            btn_drop.setEnabled(false);
+            btn_color.setEnabled(false);
             btn_foul.setEnabled(false);
             tb_defense.setEnabled(false);
 
@@ -614,6 +629,7 @@ public class MapActivity extends DialogMaker {
             } else {
                 if (!tb_defense.isChecked()) {
                     btn_climb.setEnabled(true);
+                    btn_color.setEnabled(true);
                 }
                 tb_defense.setEnabled(true);
             }
@@ -662,7 +678,6 @@ public class MapActivity extends DialogMaker {
             } else if (actionDic.get(actionCount).get(3).equals("low")) {
                 overallLayout.removeView(iv_game_element);
             } else if (actionDic.get(actionCount).get(3).equals("drop")) {
-                btn_drop.setEnabled(true);
                 modeIsIntake = false;
                 //mode = "placement";
             } else if (actionDic.get(actionCount).get(3).equals("incap")) {
@@ -677,12 +692,13 @@ public class MapActivity extends DialogMaker {
                     if (!tb_defense.isChecked()) {
                         btn_foul.setEnabled(true);
                         btn_climb.setEnabled(true);
+                        btn_color.setEnabled(true);
                     }
                 }
                 tb_incap.setChecked(false);
             } else if (actionDic.get(actionCount).get(3).equals("unincap")) {
                 btn_climb.setEnabled(false);
-                btn_drop.setEnabled(false);
+                btn_color.setEnabled(false);
                 btn_foul.setEnabled(false);
                 tb_defense.setEnabled(false);
                 tb_incap.setChecked(true);
@@ -734,6 +750,26 @@ public class MapActivity extends DialogMaker {
         placementDialog.setContentView(selectDialogLayout);
         placementDialog.show();
     }
+    public void onClickColor(View v) {
+        colorDialog = new Dialog(this);
+        colorDialog.setCanceledOnTouchOutside(false);
+        colorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        colorDialogLayout = (ConstraintLayout) this.getLayoutInflater().inflate(R.layout.map_popup_colorwheel, null);
+        colorDialog.setContentView(colorDialogLayout);
+        colorDialog.show();
+    }
+    public void onClickRotate(View v) {
+        colorDialog.dismiss();
+        InputManager.colorRotate = true;
+    }
+    public void onClickPosition(View v) {
+        colorDialog.dismiss();
+        InputManager.colorPosition = true;
+    }
+    public void onClickColorClose(View v) {
+        colorDialog.dismiss();
+    }
+
 
     public void placePregame() {
         initOnlyShape();
@@ -817,11 +853,13 @@ public class MapActivity extends DialogMaker {
             tb_defense.setEnabled(false);
             tb_incap.setEnabled(false);
             btn_foul.setEnabled(false);
+            btn_color.setEnabled(false);
         } else {
             climbStarted = false;
             tb_defense.setEnabled(true);
             tb_incap.setEnabled(true);
             btn_foul.setEnabled(true);
+            btn_color.setEnabled(true);
         }
     }
 
@@ -927,6 +965,7 @@ public class MapActivity extends DialogMaker {
         tb_incap.setEnabled(true);
         btn_foul.setEnabled(true);
         btn_climb.setChecked(false);
+        btn_color.setEnabled(true);
     }
 
     public void onClickCancelShot(View view) {
@@ -1077,6 +1116,7 @@ public class MapActivity extends DialogMaker {
             dismissPopups();
             pw = false;
             btn_climb.setEnabled(false);
+            btn_color.setEnabled(false);
 
             //Show Cycles Defended tracker in UI.
             InputManager.cyclesDefended = 0;
@@ -1100,6 +1140,7 @@ public class MapActivity extends DialogMaker {
             undoDicAdder("NA", "NA", "defense");
         } else if (!tb_defense.isChecked()) {
             btn_climb.setEnabled(true);
+            btn_color.setEnabled(true);
 
             //Remove Cycles Defended tracker from UI.
             btn_cyclesDefended.setEnabled(false);

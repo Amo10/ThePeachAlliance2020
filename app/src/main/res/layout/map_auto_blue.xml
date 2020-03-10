@@ -7,14 +7,28 @@
 
     <ToggleButton
         android:id="@+id/tgbtn_move"
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:textOff="Auto Move"
-        android:textOn="Auto Move"
+        android:layout_marginBottom="4dp"
+        android:onClick="onClickAutoMove"
+        android:textOff="Moved"
+        android:textOn="Moved"
+        app:layout_constraintBottom_toTopOf="@+id/tgbtn_no_move"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_timer" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/tgbtn_no_move"
+        android:layout_width="125dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:onClick="onClickAutoNoMove"
+        android:textOff="Didn't Move"
+        android:textOn="Didn't Move"
+        app:layout_constraintBottom_toTopOf="@+id/btn_to_auto"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn_timer"
@@ -31,11 +45,10 @@
         android:id="@+id/btn_to_auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="15dp"
         android:enabled="false"
         android:onClick="onClickTeleop"
         android:text="TELEOP"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:layout_editor_absoluteX="61dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

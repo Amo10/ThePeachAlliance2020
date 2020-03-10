@@ -29,13 +29,13 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_dropped"
+            android:id="@+id/btn_color"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:enabled="false"
-            android:text="DROP"
-            tools:visibility="invisible" />
+            android:onClick="onClickColor"
+            android:text="COLOR WHEEL" />
 
         <Button
             android:id="@+id/btn_foul"
